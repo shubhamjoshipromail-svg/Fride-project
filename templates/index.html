@@ -13,11 +13,39 @@
               sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
             },
             boxShadow: {
-              soft: "0 18px 45px rgba(15, 23, 42, 0.08)",
-              glow: "0 10px 30px rgba(37, 99, 235, 0.22)",
+              soft: "0 20px 60px rgba(15, 23, 42, 0.10)",
+              glow: "0 8px 32px rgba(37, 99, 235, 0.28)",
+              "glow-orange": "0 8px 32px rgba(234, 88, 12, 0.32)",
+              glass: "0 8px 32px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255,255,255,0.6)",
+            },
+            backgroundImage: {
+              "ios-light": "linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 40%, #faf5ff 100%)",
+              "ios-fight": "linear-gradient(160deg, #1a0a00 0%, #2d1200 40%, #1a0005 100%)",
             },
             colors: {
-              slateMist: "#eef2f7",
+              fight: {
+                50:  "#fff7ed",
+                100: "#ffedd5",
+                400: "#fb923c",
+                500: "#f97316",
+                600: "#ea580c",
+                700: "#c2410c",
+                900: "#431407",
+              },
+            },
+            keyframes: {
+              "slide-up": {
+                "0%":   { opacity: "0", transform: "translateY(16px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              "pulse-ring": {
+                "0%, 100%": { boxShadow: "0 0 0 0 rgba(249,115,22,0.4)" },
+                "50%":      { boxShadow: "0 0 0 8px rgba(249,115,22,0)" },
+              },
+            },
+            animation: {
+              "slide-up":   "slide-up 0.5s cubic-bezier(0.16,1,0.3,1) both",
+              "pulse-ring": "pulse-ring 2s ease-in-out infinite",
             },
           },
         },
@@ -26,123 +54,438 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* ── Base transition for Fight Camp theme swap ── */
+      *, *::before, *::after { transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease; }
+
+      /* ── Glassmorphism upload box ── */
+      .glass-upload {
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1.5px solid rgba(255, 255, 255, 0.75);
+        box-shadow: 0 8px 32px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.8);
+      }
+      .fight-mode .glass-upload {
+        background: rgba(255, 90, 10, 0.10);
+        backdrop-filter: blur(24px) saturate(160%);
+        -webkit-backdrop-filter: blur(24px) saturate(160%);
+        border: 1.5px solid rgba(249, 115, 22, 0.30);
+        box-shadow: 0 8px 32px rgba(249,115,22,0.15), inset 0 1px 0 rgba(255,150,50,0.15);
+      }
+
+      /* ── iOS-style card ── */
+      .ios-card {
+        background: rgba(255,255,255,0.78);
+        backdrop-filter: blur(24px) saturate(200%);
+        -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border: 1.5px solid rgba(255,255,255,0.75);
+        box-shadow: 0 20px 60px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+      }
+      .fight-mode .ios-card {
+        background: rgba(30, 10, 0, 0.72);
+        border: 1.5px solid rgba(249, 115, 22, 0.22);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,120,30,0.12);
+      }
+
+      /* ── Toggle pill ── */
+      .toggle-track {
+        transition: background 0.35s ease;
+      }
+      .toggle-thumb {
+        transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.35s ease;
+      }
+      input[type=checkbox]:checked ~ .toggle-track { background: #ea580c; }
+      input[type=checkbox]:checked ~ .toggle-track .toggle-thumb { transform: translateX(22px); }
+
+      /* ── Fight Camp badge pulse ── */
+      .fight-badge { animation: pulse-ring 2s ease-in-out infinite; }
+
+      /* ── Body backgrounds ── */
+      body { background-image: linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 40%, #faf5ff 100%); }
+      body.fight-mode { background-image: linear-gradient(160deg, #1a0a00 0%, #2d1200 50%, #1a0005 100%); }
+
+      /* ── Text overrides in fight mode ── */
+      .fight-mode .text-slate-900 { color: #fff5f0 !important; }
+      .fight-mode .text-slate-700 { color: #fddccc !important; }
+      .fight-mode .text-slate-600 { color: #f8c9a8 !important; }
+      .fight-mode .text-slate-500 { color: #e8a87c !important; }
+      .fight-mode .text-slate-400 { color: #c47a4a !important; }
+      .fight-mode .text-blue-700  { color: #fb923c !important; }
+      .fight-mode .border-blue-100 { border-color: rgba(249,115,22,0.30) !important; }
+      .fight-mode .bg-white\/80 { background: rgba(30,10,0,0.72) !important; }
+
+      /* ── File input styling ── */
+      input[type=file]::file-selector-button {
+        border-radius: 999px;
+        border: none;
+        padding: 0.4rem 1rem;
+        font-weight: 600;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        margin-right: 0.75rem;
+        background: #eff6ff;
+        color: #1d4ed8;
+        transition: background 0.2s;
+      }
+      input[type=file]::file-selector-button:hover { background: #dbeafe; }
+      .fight-mode input[type=file]::file-selector-button { background: rgba(249,115,22,0.15); color: #fb923c; }
+      .fight-mode input[type=file]::file-selector-button:hover { background: rgba(249,115,22,0.28); }
+    </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e9eef5] font-sans text-slate-900">
-    <main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-      <div class="w-full max-w-6xl">
-        <div class="grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
-          <section
-            class="relative overflow-hidden rounded-[32px] border border-white/70 bg-white/75 p-6 shadow-soft backdrop-blur-xl sm:p-8 lg:p-10"
-          >
-            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-r from-blue-100/70 via-white/20 to-cyan-100/70"></div>
+
+  <body class="min-h-screen font-sans text-slate-900 antialiased" id="app-body">
+
+    <!-- ── Ambient blobs ── -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 overflow-hidden">
+      <div class="absolute -top-32 -left-32 h-[520px] w-[520px] rounded-full bg-blue-300/20 blur-[120px]" id="blob1"></div>
+      <div class="absolute top-1/2 -right-48 h-[480px] w-[480px] rounded-full bg-violet-300/20 blur-[120px]" id="blob2"></div>
+      <div class="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-200/20 blur-[100px]" id="blob3"></div>
+    </div>
+
+    <main class="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+      <div class="w-full max-w-6xl animate-slide-up">
+
+        <!-- ── Top bar ── -->
+        <div class="mb-8 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 shadow-glass text-lg" style="backdrop-filter:blur(12px)">🍳</span>
+            <span class="text-sm font-semibold tracking-tight text-slate-600" id="app-tagline">AI Sous-Chef</span>
+          </div>
+
+          <!-- Fight Camp toggle -->
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold uppercase tracking-widest text-slate-500" id="toggle-label">Fight Camp</span>
+            <label class="relative flex cursor-pointer select-none items-center" title="Toggle Fight Camp mode">
+              <input type="checkbox" class="peer sr-only" id="fight-toggle" onchange="toggleFightCamp(this)" />
+              <!-- track -->
+              <div class="toggle-track relative h-7 w-[52px] rounded-full bg-slate-200 peer-focus-visible:ring-2 peer-focus-visible:ring-orange-400 peer-focus-visible:ring-offset-2">
+                <!-- thumb -->
+                <span class="toggle-thumb absolute left-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-sm text-[10px]">💪</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ── Fight Camp banner (hidden by default) ── -->
+        <div
+          id="fight-banner"
+          class="mb-6 hidden overflow-hidden rounded-2xl border border-orange-500/30 bg-orange-500/10 px-5 py-3.5"
+          style="backdrop-filter:blur(16px)"
+        >
+          <div class="flex items-center gap-3">
+            <span class="fight-badge flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-orange-500 text-base shadow-glow-orange">🥊</span>
+            <div>
+              <p class="text-sm font-bold text-orange-300">Fight Camp Mode Active</p>
+              <p class="text-xs text-orange-400/80">Recipes will be filtered for high-protein, low-sugar macros to fuel your training.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Two-column grid ── -->
+        <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+
+          <!-- ── Left: Input card ── -->
+          <section class="ios-card relative overflow-hidden rounded-[32px] p-6 sm:p-8 lg:p-10">
+            <!-- header shimmer strip -->
+            <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-r from-blue-200/40 via-white/10 to-cyan-200/40 pointer-events-none" id="card-shimmer"></div>
+
             <div class="relative">
+              <!-- pill badge -->
               <div
-                class="mb-6 inline-flex items-center rounded-full border border-blue-100 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-blue-700 shadow-sm"
+                class="mb-5 inline-flex items-center rounded-full border border-blue-100 bg-white/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700 shadow-sm"
+                id="mode-pill"
+                style="backdrop-filter:blur(8px)"
               >
                 Personalized kitchen intelligence
               </div>
-              <h1 class="max-w-xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+
+              <h1 class="max-w-xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]" id="hero-heading">
                 {{ app_name }}
               </h1>
-              <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+              <p class="mt-4 max-w-md text-[15px] leading-7 text-slate-600" id="hero-sub">
                 Upload a photo of your fridge or ingredients, share your cravings or
                 dietary needs, and get a polished recipe tailored to what you have.
               </p>
 
-              <form action="/" method="post" enctype="multipart/form-data" class="mt-8 space-y-5">
-                <label
-                  for="image"
-                  class="block rounded-[28px] border border-slate-200/80 bg-slate-50/85 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_10px_30px_rgba(15,23,42,0.06)] transition duration-200 hover:border-blue-200 hover:shadow-soft"
-                >
-                  <span class="mb-2 block text-sm font-semibold text-slate-800">
-                    Ingredient photo
-                  </span>
-                  <p class="mb-4 text-sm leading-6 text-slate-500">
+              <form action="/" method="post" enctype="multipart/form-data" class="mt-8 space-y-4">
+
+                <!-- Image upload — glassmorphism -->
+                <div class="glass-upload rounded-[26px] p-5 transition-all duration-300 hover:shadow-glow">
+                  <span class="mb-1 block text-[13px] font-semibold text-slate-800" id="upload-label">Ingredient photo</span>
+                  <p class="mb-4 text-[13px] leading-5 text-slate-500" id="upload-hint">
                     Drop in a quick snapshot of your fridge, produce, or pantry lineup.
                   </p>
-                  <input
-                    id="image"
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    required
-                    class="block w-full cursor-pointer rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-4 text-sm text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
-                  />
-                </label>
+                  <div
+                    class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/80 bg-white/60 px-4 py-6 text-center"
+                    id="drop-zone"
+                    ondragover="event.preventDefault();this.classList.add('border-blue-400','bg-blue-50/60')"
+                    ondragleave="this.classList.remove('border-blue-400','bg-blue-50/60')"
+                    ondrop="handleDrop(event)"
+                  >
+                    <span class="mb-2 text-3xl" id="drop-icon">📷</span>
+                    <p class="mb-3 text-[12px] text-slate-400" id="drop-text">Drag & drop your photo here, or</p>
+                    <label class="cursor-pointer rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-[12px] font-semibold text-blue-700 shadow-sm transition hover:bg-blue-100 hover:shadow-glow">
+                      Choose file
+                      <input
+                        id="image"
+                        name="image"
+                        type="file"
+                        accept="image/*"
+                        required
+                        class="sr-only"
+                        onchange="previewImage(this)"
+                      />
+                    </label>
+                    <p id="file-name" class="mt-2 text-[11px] text-slate-400 hidden"></p>
+                    <img id="img-preview" class="mt-3 hidden max-h-32 rounded-xl object-cover shadow-soft" alt="Preview" />
+                  </div>
+                </div>
 
-                <label
-                  for="preferences"
-                  class="block rounded-[28px] border border-slate-200/80 bg-slate-50/85 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_10px_30px_rgba(15,23,42,0.06)]"
+                <!-- Preferences -->
+                <div
+                  class="rounded-[26px] border border-white/80 bg-white/55 p-5 shadow-glass"
+                  style="backdrop-filter:blur(16px)"
                 >
-                  <span class="mb-2 block text-sm font-semibold text-slate-800">
-                    Cravings or dietary needs
-                  </span>
-                  <input
+                  <span class="mb-2 block text-[13px] font-semibold text-slate-800" id="prefs-label">Cravings or dietary needs</span>
+                  <textarea
                     id="preferences"
                     name="preferences"
-                    type="text"
-                    placeholder="Make it a spicy Asian dish, keep it sugar-free, high-protein, vegetarian..."
-                    value="{{ preferences }}"
-                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-                  />
-                </label>
+                    rows="2"
+                    placeholder="Make it spicy, keep it sugar-free, high-protein, vegetarian…"
+                    class="w-full resize-none rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-[13px] text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition"
+                    id="prefs-input"
+                  >{{ preferences }}</textarea>
+                  <!-- Fight Camp macro hint (hidden by default) -->
+                  <p class="mt-2 hidden text-[11px] font-medium text-orange-500" id="macro-hint">
+                    ⚡ Fight Camp: targeting ≥30g protein, ≤5g sugar per serving.
+                  </p>
+                </div>
 
+                <!-- Hidden fight_camp field -->
+                <input type="hidden" name="fight_camp" id="fight-camp-input" value="0" />
+
+                <!-- Submit -->
                 <button
                   type="submit"
-                  class="inline-flex w-full items-center justify-center rounded-[22px] bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-6 py-4 text-base font-semibold text-white shadow-glow transition duration-200 hover:-translate-y-0.5 hover:from-blue-600 hover:via-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
+                  id="submit-btn"
+                  class="group inline-flex w-full items-center justify-center gap-2 rounded-[22px] bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-6 py-4 text-[15px] font-semibold text-white shadow-glow transition duration-200 hover:-translate-y-0.5 hover:from-blue-600 hover:via-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-4 focus:ring-blue-200 active:scale-[0.98]"
                 >
-                  Generate Recipe
+                  <span id="btn-icon">✨</span>
+                  <span id="btn-text">Generate Recipe</span>
+                  <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                  </svg>
                 </button>
               </form>
             </div>
           </section>
 
-          <section
-            class="rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-soft backdrop-blur-xl sm:p-8 lg:p-10"
-          >
+          <!-- ── Right: Output card ── -->
+          <section class="ios-card flex flex-col rounded-[32px] p-6 sm:p-8 lg:p-10">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Output
-                </p>
-                <h2 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-                  Your AI recipe
-                </h2>
-                <p class="mt-3 text-sm leading-6 text-slate-500 sm:text-base">
-                  The model response appears here as a tailored, step-by-step recipe.
+                <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400" id="output-eyebrow">Output</p>
+                <h2 class="mt-1.5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Your AI recipe</h2>
+                <p class="mt-2 text-[13px] leading-6 text-slate-500">
+                  Tailored, step-by-step recipe appears here.
                 </p>
               </div>
+              <!-- Macro badge — shown in fight mode if recipe exists -->
+              {% if recipe %}
+              <div
+                class="hidden shrink-0 rounded-2xl border border-orange-500/25 bg-orange-500/10 px-3 py-2 text-center"
+                id="macro-badge"
+              >
+                <p class="text-[10px] font-semibold uppercase tracking-widest text-orange-400">Macros</p>
+                <p class="text-lg font-bold text-orange-300">🥩 💪</p>
+              </div>
+              {% endif %}
             </div>
 
             {% if error %}
-            <div class="mt-6 rounded-[24px] border border-red-200 bg-red-50 px-5 py-4 text-sm leading-6 text-red-700 shadow-sm">
+            <div class="mt-5 rounded-[20px] border border-red-300/60 bg-red-50/80 px-5 py-4 text-[13px] leading-6 text-red-700 shadow-sm" style="backdrop-filter:blur(8px)">
               {{ error }}
             </div>
             {% endif %}
 
             {% if recipe %}
             <article
-              class="mt-6 min-h-[320px] whitespace-pre-wrap rounded-[28px] border border-slate-200 bg-slate-50/90 px-5 py-5 text-sm leading-7 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-6 sm:py-6 sm:text-[15px]"
+              class="mt-5 flex-1 whitespace-pre-wrap rounded-[24px] border border-slate-200/60 bg-slate-50/80 px-5 py-5 text-[13px] leading-7 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-6 sm:text-sm"
+              style="backdrop-filter:blur(8px); min-height: 320px;"
             >
               {{ recipe }}
             </article>
             {% else %}
             <article
-              class="mt-6 flex min-h-[320px] items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center text-sm leading-7 text-slate-500 sm:text-[15px]"
+              class="mt-5 flex flex-1 flex-col items-center justify-center gap-4 rounded-[24px] border-2 border-dashed border-slate-200/80 bg-slate-50/60 px-6 py-10 text-center"
+              style="min-height: 320px; backdrop-filter:blur(8px)"
             >
-              Expect a practical recipe that uses the ingredients spotted in your image
-              and matches the flavor direction you requested.
+              <span class="text-4xl opacity-40">🍽️</span>
+              <p class="max-w-xs text-[13px] leading-7 text-slate-500">
+                Expect a practical recipe that uses the ingredients spotted in your image
+                and matches the flavor direction you requested.
+              </p>
             </article>
             {% endif %}
-
-            <!-- Future feature area: interactive video tutorial player goes here. -->
-            <!-- Future feature area: saved recipe controls and favorites library go here. -->
           </section>
-        </div>
+
+        </div><!-- /grid -->
+
+        <!-- ── Footer ── -->
+        <p class="mt-8 text-center text-[11px] text-slate-400/70">
+          Powered by Claude &nbsp;·&nbsp; AI Sous-Chef
+        </p>
+
       </div>
     </main>
+
+    <script>
+      // ── Fight Camp toggle ──────────────────────────────────────────────
+      function toggleFightCamp(checkbox) {
+        const body       = document.getElementById('app-body');
+        const banner     = document.getElementById('fight-banner');
+        const pill       = document.getElementById('mode-pill');
+        const heading    = document.getElementById('hero-heading');
+        const sub        = document.getElementById('hero-sub');
+        const shimmer    = document.getElementById('card-shimmer');
+        const uploadHint = document.getElementById('upload-hint');
+        const dropIcon   = document.getElementById('drop-icon');
+        const macroHint  = document.getElementById('macro-hint');
+        const macroBadge = document.getElementById('macro-badge');
+        const btnIcon    = document.getElementById('btn-icon');
+        const btnText    = document.getElementById('btn-text');
+        const btn        = document.getElementById('submit-btn');
+        const blob1      = document.getElementById('blob1');
+        const blob2      = document.getElementById('blob2');
+        const blob3      = document.getElementById('blob3');
+        const dropZone   = document.getElementById('drop-zone');
+        const fcInput    = document.getElementById('fight-camp-input');
+        const prefsInput = document.getElementById('prefs-input');
+        const prefsLabel = document.getElementById('prefs-label');
+
+        if (checkbox.checked) {
+          // ── ON ──────────────────────────────────────────
+          body.classList.add('fight-mode');
+          banner.classList.remove('hidden');
+          fcInput.value = '1';
+
+          pill.textContent = '🥊 Fight Camp — High Protein · Low Sugar';
+          pill.style.background = 'rgba(249,115,22,0.15)';
+          pill.style.borderColor = 'rgba(249,115,22,0.35)';
+          pill.style.color = '#fb923c';
+
+          sub.textContent = 'Upload a photo of your ingredients and let the AI craft a high-protein, low-sugar recipe built for peak performance.';
+          uploadHint.textContent = 'Drop a pic of your protein sources — chicken, eggs, fish, legumes…';
+          dropIcon.textContent = '🥩';
+          macroHint.classList.remove('hidden');
+          if (macroBadge) macroBadge.classList.remove('hidden');
+
+          // Prepend fight camp directive to preferences if not already there
+          if (!prefsInput.value.toLowerCase().includes('high-protein') && !prefsInput.value.toLowerCase().includes('fight camp')) {
+            prefsInput.placeholder = 'e.g. grilled chicken bowl, post-workout shake, lean beef stir fry…';
+          }
+          prefsLabel.textContent = 'Training goals or preferences';
+
+          btnIcon.textContent = '🥊';
+          btnText.textContent = 'Generate Fight Camp Recipe';
+          btn.classList.remove('from-blue-500','via-sky-500','to-cyan-400','hover:from-blue-600','hover:via-sky-600','hover:to-cyan-500','shadow-glow','focus:ring-blue-200');
+          btn.classList.add('from-orange-500','via-orange-600','to-red-500','hover:from-orange-600','hover:via-red-600','hover:to-red-600','shadow-[0_8px_32px_rgba(234,88,12,0.32)]','focus:ring-orange-200');
+
+          shimmer.style.background = 'linear-gradient(to right, rgba(249,115,22,0.15), rgba(0,0,0,0), rgba(239,68,68,0.12))';
+
+          blob1.style.background = 'rgba(234,88,12,0.18)';
+          blob2.style.background = 'rgba(239,68,68,0.15)';
+          blob3.style.background = 'rgba(251,146,60,0.12)';
+
+          dropZone.addEventListener('dragover', fightDragOver);
+          dropZone.removeEventListener('dragover', defaultDragOver);
+
+        } else {
+          // ── OFF ─────────────────────────────────────────
+          body.classList.remove('fight-mode');
+          banner.classList.add('hidden');
+          fcInput.value = '0';
+
+          pill.textContent = 'Personalized kitchen intelligence';
+          pill.style.background = '';
+          pill.style.borderColor = '';
+          pill.style.color = '';
+
+          sub.textContent = 'Upload a photo of your fridge or ingredients, share your cravings or dietary needs, and get a polished recipe tailored to what you have.';
+          uploadHint.textContent = 'Drop in a quick snapshot of your fridge, produce, or pantry lineup.';
+          dropIcon.textContent = '📷';
+          macroHint.classList.add('hidden');
+          if (macroBadge) macroBadge.classList.add('hidden');
+
+          prefsInput.placeholder = 'Make it spicy, keep it sugar-free, high-protein, vegetarian…';
+          prefsLabel.textContent = 'Cravings or dietary needs';
+
+          btnIcon.textContent = '✨';
+          btnText.textContent = 'Generate Recipe';
+          btn.classList.add('from-blue-500','via-sky-500','to-cyan-400','hover:from-blue-600','hover:via-sky-600','hover:to-cyan-500','shadow-glow','focus:ring-blue-200');
+          btn.classList.remove('from-orange-500','via-orange-600','to-red-500','hover:from-orange-600','hover:via-red-600','hover:to-red-600','shadow-[0_8px_32px_rgba(234,88,12,0.32)]','focus:ring-orange-200');
+
+          shimmer.style.background = '';
+
+          blob1.style.background = '';
+          blob2.style.background = '';
+          blob3.style.background = '';
+        }
+      }
+
+      // ── Image preview ─────────────────────────────────────────────────
+      function previewImage(input) {
+        const preview  = document.getElementById('img-preview');
+        const fileName = document.getElementById('file-name');
+        if (input.files && input.files[0]) {
+          const file = input.files[0];
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+          fileName.textContent = file.name;
+          fileName.classList.remove('hidden');
+        }
+      }
+
+      // ── Drag & drop ───────────────────────────────────────────────────
+      function handleDrop(event) {
+        event.preventDefault();
+        const zone  = event.currentTarget;
+        zone.classList.remove('border-blue-400','bg-blue-50/60');
+        const files = event.dataTransfer.files;
+        if (files && files[0]) {
+          const realInput = document.getElementById('image');
+          // Transfer files to the real input via DataTransfer
+          const dt = new DataTransfer();
+          dt.items.add(files[0]);
+          realInput.files = dt.files;
+          previewImage(realInput);
+        }
+      }
+      function defaultDragOver(e) { e.preventDefault(); }
+      function fightDragOver(e) {
+        e.preventDefault();
+        e.currentTarget.classList.add('border-orange-400','bg-orange-50/20');
+      }
+
+      // ── Restore fight mode if coming back from form submit ────────────
+      window.addEventListener('DOMContentLoaded', () => {
+        const fcInput = document.getElementById('fight-camp-input');
+        // Check URL params for persistence (optional enhancement)
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('fight_camp') === '1') {
+          document.getElementById('fight-toggle').checked = true;
+          toggleFightCamp(document.getElementById('fight-toggle'));
+        }
+      });
+    </script>
+
   </body>
 </html>
