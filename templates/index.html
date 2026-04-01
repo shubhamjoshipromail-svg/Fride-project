@@ -12,40 +12,34 @@
             fontFamily: {
               sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
             },
-            boxShadow: {
-              soft: "0 20px 60px rgba(15, 23, 42, 0.10)",
-              glow: "0 8px 32px rgba(37, 99, 235, 0.28)",
-              "glow-orange": "0 8px 32px rgba(234, 88, 12, 0.32)",
-              glass: "0 8px 32px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255,255,255,0.6)",
-            },
-            backgroundImage: {
-              "ios-light": "linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 40%, #faf5ff 100%)",
-              "ios-fight": "linear-gradient(160deg, #1a0a00 0%, #2d1200 40%, #1a0005 100%)",
-            },
-            colors: {
-              fight: {
-                50:  "#fff7ed",
-                100: "#ffedd5",
-                400: "#fb923c",
-                500: "#f97316",
-                600: "#ea580c",
-                700: "#c2410c",
-                900: "#431407",
-              },
-            },
             keyframes: {
               "slide-up": {
-                "0%":   { opacity: "0", transform: "translateY(16px)" },
+                "0%":   { opacity: "0", transform: "translateY(20px)" },
                 "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              "fade-in": {
+                "0%":   { opacity: "0" },
+                "100%": { opacity: "1" },
               },
               "pulse-ring": {
                 "0%, 100%": { boxShadow: "0 0 0 0 rgba(249,115,22,0.4)" },
-                "50%":      { boxShadow: "0 0 0 8px rgba(249,115,22,0)" },
+                "50%":      { boxShadow: "0 0 0 10px rgba(249,115,22,0)" },
+              },
+              "spin-slow": {
+                from: { transform: "rotate(0deg)" },
+                to:   { transform: "rotate(360deg)" },
+              },
+              "spin-rev": {
+                from: { transform: "rotate(0deg)" },
+                to:   { transform: "rotate(-360deg)" },
               },
             },
             animation: {
-              "slide-up":   "slide-up 0.5s cubic-bezier(0.16,1,0.3,1) both",
+              "slide-up":   "slide-up 0.55s cubic-bezier(0.16,1,0.3,1) both",
+              "fade-in":    "fade-in 0.4s ease both",
               "pulse-ring": "pulse-ring 2s ease-in-out infinite",
+              "spin-slow":  "spin-slow 10s linear infinite",
+              "spin-rev":   "spin-rev 7s linear infinite",
             },
           },
         },
@@ -53,97 +47,222 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
     <style>
-      /* ── Base transition for Fight Camp theme swap ── */
-      *, *::before, *::after { transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease; }
-
-      /* ── Glassmorphism upload box ── */
-      .glass-upload {
-        background: rgba(255, 255, 255, 0.55);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1.5px solid rgba(255, 255, 255, 0.75);
-        box-shadow: 0 8px 32px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.8);
-      }
-      .fight-mode .glass-upload {
-        background: rgba(255, 90, 10, 0.10);
-        backdrop-filter: blur(24px) saturate(160%);
-        -webkit-backdrop-filter: blur(24px) saturate(160%);
-        border: 1.5px solid rgba(249, 115, 22, 0.30);
-        box-shadow: 0 8px 32px rgba(249,115,22,0.15), inset 0 1px 0 rgba(255,150,50,0.15);
+      /* ── Global theme transitions ── */
+      *, *::before, *::after {
+        transition: background-color 0.4s ease, border-color 0.4s ease,
+                    color 0.3s ease, box-shadow 0.4s ease, opacity 0.3s ease;
       }
 
-      /* ── iOS-style card ── */
+      /* ── Background ── */
+      body {
+        background-color: #0d1117;
+        background-image:
+          radial-gradient(ellipse 80% 60% at 20% 0%,   rgba(56,98,210,0.22) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 80% 100%, rgba(99,57,180,0.18) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(22,58,105,0.15) 0%, transparent 70%);
+      }
+      body.fight-mode {
+        background-color: #120800;
+        background-image:
+          radial-gradient(ellipse 80% 60% at 20% 0%,   rgba(200,50,10,0.25) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 80% 100%, rgba(150,20,5,0.20) 0%, transparent 60%);
+      }
+
+      /* ── iOS cards (dark) ── */
       .ios-card {
-        background: rgba(255,255,255,0.78);
-        backdrop-filter: blur(24px) saturate(200%);
-        -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1.5px solid rgba(255,255,255,0.75);
-        box-shadow: 0 20px 60px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(28px) saturate(160%);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+        border: 1px solid rgba(255,255,255,0.10);
+        box-shadow: 0 24px 64px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
       }
       .fight-mode .ios-card {
-        background: rgba(30, 10, 0, 0.72);
-        border: 1.5px solid rgba(249, 115, 22, 0.22);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,120,30,0.12);
+        background: rgba(255,60,0,0.05);
+        border: 1px solid rgba(249,115,22,0.18);
+        box-shadow: 0 24px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,120,30,0.08);
       }
 
-      /* ── Toggle pill ── */
-      .toggle-track {
-        transition: background 0.35s ease;
+      /* ── Glass sections inside cards ── */
+      .glass-section {
+        background: rgba(255,255,255,0.04);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.09);
       }
-      .toggle-thumb {
-        transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.35s ease;
+      .fight-mode .glass-section {
+        background: rgba(249,115,22,0.06);
+        border: 1px solid rgba(249,115,22,0.18);
       }
+
+      /* ── Camera zone ── */
+      .camera-zone {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .ring {
+        position: absolute;
+        border-radius: 50%;
+        border-style: solid;
+        border-color: transparent;
+        pointer-events: none;
+      }
+      .ring-outer {
+        width: 160px; height: 160px;
+        border-width: 1px;
+        border-top-color: rgba(99,160,255,0.35);
+        border-right-color: rgba(99,160,255,0.12);
+        animation: spin-slow 10s linear infinite;
+      }
+      .ring-mid {
+        width: 130px; height: 130px;
+        border-width: 1px;
+        border-bottom-color: rgba(130,100,255,0.35);
+        border-left-color: rgba(130,100,255,0.12);
+        animation: spin-rev 7s linear infinite;
+      }
+      .ring-dots {
+        width: 108px; height: 108px;
+        border-width: 1.5px;
+        border-style: dashed;
+        border-color: rgba(99,160,255,0.14);
+        animation: spin-slow 20s linear infinite;
+      }
+      .fight-mode .ring-outer { border-top-color: rgba(249,115,22,0.45); border-right-color: rgba(249,115,22,0.15); }
+      .fight-mode .ring-mid   { border-bottom-color: rgba(239,68,68,0.40); border-left-color: rgba(239,68,68,0.15); }
+      .fight-mode .ring-dots  { border-color: rgba(249,115,22,0.18); }
+
+      .camera-btn-circle {
+        width: 86px; height: 86px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1.5px solid rgba(99,160,255,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                    box-shadow 0.25s ease,
+                    background 0.25s ease;
+        box-shadow: 0 0 40px rgba(99,160,255,0.12), inset 0 1px 0 rgba(255,255,255,0.12);
+        position: relative;
+        z-index: 2;
+      }
+      .camera-zone:hover .camera-btn-circle {
+        transform: scale(1.08);
+        background: rgba(99,160,255,0.12);
+        box-shadow: 0 0 55px rgba(99,160,255,0.25), inset 0 1px 0 rgba(255,255,255,0.16);
+      }
+      .fight-mode .camera-btn-circle {
+        border-color: rgba(249,115,22,0.45);
+        box-shadow: 0 0 40px rgba(249,115,22,0.18), inset 0 1px 0 rgba(255,180,80,0.10);
+      }
+      .fight-mode .camera-zone:hover .camera-btn-circle {
+        background: rgba(249,115,22,0.12);
+        box-shadow: 0 0 55px rgba(249,115,22,0.30);
+      }
+
+      /* ── Image preview replaces camera ── */
+      #preview-zone {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      #img-preview {
+        max-height: 150px;
+        border-radius: 16px;
+        object-fit: cover;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        border: 1.5px solid rgba(255,255,255,0.12);
+      }
+
+      /* ── Preference chips ── */
+      .pref-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 13px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.05);
+        color: rgba(255,255,255,0.55);
+        transition: all 0.18s ease;
+        white-space: nowrap;
+      }
+      .pref-chip:hover {
+        background: rgba(99,160,255,0.12);
+        border-color: rgba(99,160,255,0.35);
+        color: rgba(180,210,255,0.95);
+        transform: translateY(-1px);
+      }
+      .pref-chip.active {
+        background: rgba(99,160,255,0.18);
+        border-color: rgba(99,160,255,0.55);
+        color: #93c5fd;
+        box-shadow: 0 0 16px rgba(99,160,255,0.18);
+      }
+      .fight-mode .pref-chip:hover {
+        background: rgba(249,115,22,0.12);
+        border-color: rgba(249,115,22,0.40);
+        color: rgba(255,190,120,0.95);
+      }
+      .fight-mode .pref-chip.active {
+        background: rgba(249,115,22,0.18);
+        border-color: rgba(249,115,22,0.55);
+        color: #fdba74;
+        box-shadow: 0 0 16px rgba(249,115,22,0.20);
+      }
+
+      /* ── Toggle ── */
+      .toggle-track { transition: background 0.3s ease; }
+      .toggle-thumb { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
       input[type=checkbox]:checked ~ .toggle-track { background: #ea580c; }
       input[type=checkbox]:checked ~ .toggle-track .toggle-thumb { transform: translateX(22px); }
 
-      /* ── Fight Camp badge pulse ── */
+      /* ── Fight badge pulse ── */
       .fight-badge { animation: pulse-ring 2s ease-in-out infinite; }
 
-      /* ── Body backgrounds ── */
-      body { background-image: linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 40%, #faf5ff 100%); }
-      body.fight-mode { background-image: linear-gradient(160deg, #1a0a00 0%, #2d1200 50%, #1a0005 100%); }
-
-      /* ── Text overrides in fight mode ── */
-      .fight-mode .text-slate-900 { color: #fff5f0 !important; }
-      .fight-mode .text-slate-700 { color: #fddccc !important; }
-      .fight-mode .text-slate-600 { color: #f8c9a8 !important; }
-      .fight-mode .text-slate-500 { color: #e8a87c !important; }
-      .fight-mode .text-slate-400 { color: #c47a4a !important; }
-      .fight-mode .text-blue-700  { color: #fb923c !important; }
-      .fight-mode .border-blue-100 { border-color: rgba(249,115,22,0.30) !important; }
-      .fight-mode .bg-white\/80 { background: rgba(30,10,0,0.72) !important; }
-
-      /* ── File input styling ── */
-      input[type=file]::file-selector-button {
-        border-radius: 999px;
-        border: none;
-        padding: 0.4rem 1rem;
-        font-weight: 600;
-        font-size: 0.8125rem;
-        cursor: pointer;
-        margin-right: 0.75rem;
-        background: #eff6ff;
-        color: #1d4ed8;
-        transition: background 0.2s;
+      /* ── Textarea & inputs ── */
+      textarea, input[type=text] {
+        background: rgba(255,255,255,0.05) !important;
+        color: rgba(255,255,255,0.85) !important;
+        border-color: rgba(255,255,255,0.10) !important;
       }
-      input[type=file]::file-selector-button:hover { background: #dbeafe; }
-      .fight-mode input[type=file]::file-selector-button { background: rgba(249,115,22,0.15); color: #fb923c; }
-      .fight-mode input[type=file]::file-selector-button:hover { background: rgba(249,115,22,0.28); }
+      textarea::placeholder, input[type=text]::placeholder { color: rgba(255,255,255,0.28) !important; }
+      textarea:focus, input[type=text]:focus {
+        border-color: rgba(99,160,255,0.5) !important;
+        box-shadow: 0 0 0 3px rgba(99,160,255,0.12) !important;
+        outline: none;
+      }
+      .fight-mode textarea:focus, .fight-mode input[type=text]:focus {
+        border-color: rgba(249,115,22,0.5) !important;
+        box-shadow: 0 0 0 3px rgba(249,115,22,0.12) !important;
+      }
     </style>
   </head>
 
-  <body class="min-h-screen font-sans text-slate-900 antialiased" id="app-body">
+  <body class="min-h-screen font-sans antialiased text-white" id="app-body">
 
     <!-- ── Ambient blobs ── -->
     <div aria-hidden="true" class="pointer-events-none fixed inset-0 overflow-hidden">
-      <div class="absolute -top-32 -left-32 h-[520px] w-[520px] rounded-full bg-blue-300/20 blur-[120px]" id="blob1"></div>
-      <div class="absolute top-1/2 -right-48 h-[480px] w-[480px] rounded-full bg-violet-300/20 blur-[120px]" id="blob2"></div>
-      <div class="absolute bottom-0 left-1/3 h-[400px] w-[400px] rounded-full bg-cyan-200/20 blur-[100px]" id="blob3"></div>
+      <div class="absolute -top-48 -left-48 h-[600px] w-[600px] rounded-full blur-[140px]" style="background:rgba(56,98,210,0.18)" id="blob1"></div>
+      <div class="absolute top-1/2 -right-48 h-[500px] w-[500px] rounded-full blur-[140px]" style="background:rgba(99,57,180,0.16)" id="blob2"></div>
+      <div class="absolute -bottom-32 left-1/3 h-[420px] w-[420px] rounded-full blur-[120px]" style="background:rgba(22,58,120,0.18)" id="blob3"></div>
     </div>
 
     <main class="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
@@ -151,36 +270,33 @@
 
         <!-- ── Top bar ── -->
         <div class="mb-8 flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 shadow-glass text-lg" style="backdrop-filter:blur(12px)">🍳</span>
-            <span class="text-sm font-semibold tracking-tight text-slate-600" id="app-tagline">AI Sous-Chef</span>
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl text-lg" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.10)">📖</div>
+            <div>
+              <p class="text-sm font-bold tracking-tight text-white/90">Your Personal Cook Book</p>
+              <p class="text-[10px] text-white/35 tracking-wide">Powered by Claude AI</p>
+            </div>
           </div>
 
           <!-- Fight Camp toggle -->
           <div class="flex items-center gap-3">
-            <span class="text-xs font-semibold uppercase tracking-widest text-slate-500" id="toggle-label">Fight Camp</span>
+            <span class="text-[11px] font-semibold uppercase tracking-widest text-white/40">Fight Camp</span>
             <label class="relative flex cursor-pointer select-none items-center" title="Toggle Fight Camp mode">
               <input type="checkbox" class="peer sr-only" id="fight-toggle" onchange="toggleFightCamp(this)" />
-              <!-- track -->
-              <div class="toggle-track relative h-7 w-[52px] rounded-full bg-slate-200 peer-focus-visible:ring-2 peer-focus-visible:ring-orange-400 peer-focus-visible:ring-offset-2">
-                <!-- thumb -->
+              <div class="toggle-track relative h-7 w-[52px] rounded-full bg-white/10 border border-white/10">
                 <span class="toggle-thumb absolute left-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-sm text-[10px]">💪</span>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- ── Fight Camp banner (hidden by default) ── -->
-        <div
-          id="fight-banner"
-          class="mb-6 hidden overflow-hidden rounded-2xl border border-orange-500/30 bg-orange-500/10 px-5 py-3.5"
-          style="backdrop-filter:blur(16px)"
-        >
+        <!-- ── Fight Camp banner ── -->
+        <div id="fight-banner" class="mb-6 hidden overflow-hidden rounded-2xl px-5 py-3.5" style="background:rgba(249,115,22,0.10);border:1px solid rgba(249,115,22,0.25);backdrop-filter:blur(16px)">
           <div class="flex items-center gap-3">
-            <span class="fight-badge flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-orange-500 text-base shadow-glow-orange">🥊</span>
+            <span class="fight-badge flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-orange-500 text-base">🥊</span>
             <div>
               <p class="text-sm font-bold text-orange-300">Fight Camp Mode Active</p>
-              <p class="text-xs text-orange-400/80">Recipes will be filtered for high-protein, low-sugar macros to fuel your training.</p>
+              <p class="text-xs text-orange-400/75">Recipes optimised for high-protein, low-sugar macros to fuel your training.</p>
             </div>
           </div>
         </div>
@@ -188,95 +304,104 @@
         <!-- ── Two-column grid ── -->
         <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
 
-          <!-- ── Left: Input card ── -->
+          <!-- ── LEFT: Input card ── -->
           <section class="ios-card relative overflow-hidden rounded-[32px] p-6 sm:p-8 lg:p-10">
-            <!-- header shimmer strip -->
-            <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-r from-blue-200/40 via-white/10 to-cyan-200/40 pointer-events-none" id="card-shimmer"></div>
+
+            <!-- shimmer strip -->
+            <div class="pointer-events-none absolute inset-x-0 top-0 h-32" id="card-shimmer" style="background:linear-gradient(to right, rgba(56,98,210,0.12), rgba(99,57,180,0.08), rgba(56,98,210,0.06))"></div>
 
             <div class="relative">
-              <!-- pill badge -->
-              <div
-                class="mb-5 inline-flex items-center rounded-full border border-blue-100 bg-white/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700 shadow-sm"
-                id="mode-pill"
-                style="backdrop-filter:blur(8px)"
-              >
-                Personalized kitchen intelligence
+              <!-- pill -->
+              <div class="mb-5 inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em]" id="mode-pill" style="background:rgba(99,160,255,0.10);border:1px solid rgba(99,160,255,0.22);color:rgba(147,197,253,0.9)">
+                Your personal kitchen intelligence
               </div>
 
-              <h1 class="max-w-xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]" id="hero-heading">
+              <h1 class="max-w-xl text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-[3.1rem] lg:leading-[1.1]">
                 {{ app_name }}
               </h1>
-              <p class="mt-4 max-w-md text-[15px] leading-7 text-slate-600" id="hero-sub">
-                Upload a photo of your fridge or ingredients, share your cravings or
-                dietary needs, and get a polished recipe tailored to what you have.
+              <p class="mt-4 max-w-md text-[15px] leading-7 text-white/50" id="hero-sub">
+                Snap a quick photo of your fridge and we'll calculate the best way to whip up a Michelin-class dinner from whatever you have.
               </p>
 
               <form action="/" method="post" enctype="multipart/form-data" class="mt-8 space-y-4">
 
-                <!-- Image upload — glassmorphism -->
-                <div class="glass-upload rounded-[26px] p-5 transition-all duration-300 hover:shadow-glow">
-                  <span class="mb-1 block text-[13px] font-semibold text-slate-800" id="upload-label">Ingredient photo</span>
-                  <p class="mb-4 text-[13px] leading-5 text-slate-500" id="upload-hint">
-                    Drop in a quick snapshot of your fridge, produce, or pantry lineup.
-                  </p>
-                  <div
-                    class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/80 bg-white/60 px-4 py-6 text-center"
-                    id="drop-zone"
-                    ondragover="event.preventDefault();this.classList.add('border-blue-400','bg-blue-50/60')"
-                    ondragleave="this.classList.remove('border-blue-400','bg-blue-50/60')"
-                    ondrop="handleDrop(event)"
-                  >
-                    <span class="mb-2 text-3xl" id="drop-icon">📷</span>
-                    <p class="mb-3 text-[12px] text-slate-400" id="drop-text">Drag & drop your photo here, or</p>
-                    <label class="cursor-pointer rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-[12px] font-semibold text-blue-700 shadow-sm transition hover:bg-blue-100 hover:shadow-glow">
-                      Choose file
-                      <input
-                        id="image"
-                        name="image"
-                        type="file"
-                        accept="image/*"
-                        required
-                        class="sr-only"
-                        onchange="previewImage(this)"
-                      />
-                    </label>
-                    <p id="file-name" class="mt-2 text-[11px] text-slate-400 hidden"></p>
-                    <img id="img-preview" class="mt-3 hidden max-h-32 rounded-xl object-cover shadow-soft" alt="Preview" />
+                <!-- ── Camera upload zone ── -->
+                <div class="glass-section rounded-[26px] p-5">
+                  <div class="mb-3 flex items-center justify-between">
+                    <div>
+                      <p class="text-[13px] font-semibold text-white/80" id="upload-label">Quick snap of your fridge</p>
+                      <p class="mt-0.5 text-[12px] text-white/40" id="upload-hint">We'll identify every ingredient and build your recipe around it</p>
+                    </div>
+                    <!-- change photo button — only visible after selection -->
+                    <button type="button" id="change-photo-btn" class="hidden rounded-full px-3 py-1 text-[11px] font-semibold text-white/50 transition hover:text-white/80" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.10)" onclick="clearImage(event)">
+                      Change
+                    </button>
                   </div>
+
+                  <!-- Camera zone -->
+                  <div class="camera-zone" id="camera-zone" onclick="triggerUpload()">
+                    <!-- Rings (hidden when image selected) -->
+                    <div id="camera-rings">
+                      <div class="ring ring-outer"></div>
+                      <div class="ring ring-mid"></div>
+                      <div class="ring ring-dots"></div>
+                      <!-- Camera button -->
+                      <div class="camera-btn-circle" id="camera-btn-circle">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" id="camera-icon">
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                          <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- Preview (hidden by default) -->
+                    <div id="preview-zone" class="hidden animate-fade-in">
+                      <img id="img-preview" alt="Fridge preview" />
+                      <p id="file-name" class="text-[11px] text-white/40 text-center max-w-[180px] truncate"></p>
+                    </div>
+
+                    <!-- Hidden file input -->
+                    <input type="file" id="image" name="image" accept="image/*" required class="sr-only" onchange="previewImage(this)" />
+                  </div>
+
+                  <p class="mt-3 text-center text-[11px] text-white/25" id="drop-hint">Tap to capture &nbsp;·&nbsp; or drag & drop</p>
                 </div>
 
-                <!-- Preferences -->
-                <div
-                  class="rounded-[26px] border border-white/80 bg-white/55 p-5 shadow-glass"
-                  style="backdrop-filter:blur(16px)"
-                >
-                  <span class="mb-2 block text-[13px] font-semibold text-slate-800" id="prefs-label">Cravings or dietary needs</span>
+                <!-- ── Culinary preferences ── -->
+                <div class="glass-section rounded-[26px] p-5">
+                  <p class="mb-3 text-[13px] font-semibold text-white/80" id="prefs-label">Culinary preferences</p>
+
+                  <!-- Clickable chips -->
+                  <div class="mb-3 flex flex-wrap gap-2" id="chips-container">
+                    <!-- chips rendered by JS -->
+                  </div>
+
                   <textarea
                     id="preferences"
                     name="preferences"
                     rows="2"
-                    placeholder="Make it spicy, keep it sugar-free, high-protein, vegetarian…"
-                    class="w-full resize-none rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-[13px] text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition"
-                    id="prefs-input"
+                    placeholder="Or describe anything else — spicy, sugar-free, quick weeknight dinner…"
+                    class="w-full resize-none rounded-2xl px-4 py-3 text-[13px] outline-none transition placeholder:text-white/25 border"
+                    style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.10);color:rgba(255,255,255,0.80)"
                   >{{ preferences }}</textarea>
-                  <!-- Fight Camp macro hint (hidden by default) -->
-                  <p class="mt-2 hidden text-[11px] font-medium text-orange-500" id="macro-hint">
-                    ⚡ Fight Camp: targeting ≥30g protein, ≤5g sugar per serving.
+
+                  <p class="mt-2 hidden text-[11px] font-medium text-orange-400" id="macro-hint">
+                    ⚡ Fight Camp: targeting ≥30 g protein, ≤5 g sugar per serving.
                   </p>
                 </div>
 
-                <!-- Hidden fight_camp field -->
                 <input type="hidden" name="fight_camp" id="fight-camp-input" value="0" />
 
                 <!-- Submit -->
                 <button
                   type="submit"
                   id="submit-btn"
-                  class="group inline-flex w-full items-center justify-center gap-2 rounded-[22px] bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-6 py-4 text-[15px] font-semibold text-white shadow-glow transition duration-200 hover:-translate-y-0.5 hover:from-blue-600 hover:via-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-4 focus:ring-blue-200 active:scale-[0.98]"
+                  class="group inline-flex w-full items-center justify-center gap-2.5 rounded-[22px] px-6 py-4 text-[15px] font-semibold text-white transition duration-200 hover:-translate-y-0.5 focus:outline-none active:scale-[0.98]"
+                  style="background:linear-gradient(135deg,#3b82f6,#6366f1);box-shadow:0 8px 32px rgba(99,102,241,0.35)"
                 >
                   <span id="btn-icon">✨</span>
-                  <span id="btn-text">Generate Recipe</span>
-                  <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <span id="btn-text">Cook My Dinner</span>
+                  <svg class="h-4 w-4 transition group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                   </svg>
                 </button>
@@ -284,22 +409,18 @@
             </div>
           </section>
 
-          <!-- ── Right: Output card ── -->
+          <!-- ── RIGHT: Output card ── -->
           <section class="ios-card flex flex-col rounded-[32px] p-6 sm:p-8 lg:p-10">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400" id="output-eyebrow">Output</p>
-                <h2 class="mt-1.5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Your AI recipe</h2>
-                <p class="mt-2 text-[13px] leading-6 text-slate-500">
-                  Tailored, step-by-step recipe appears here.
+                <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/30">Tonight's Recipe</p>
+                <h2 class="mt-1.5 text-3xl font-bold tracking-tight text-white sm:text-4xl">Your AI recipe</h2>
+                <p class="mt-2 text-[13px] leading-6 text-white/40">
+                  Your Michelin-inspired recipe appears here.
                 </p>
               </div>
-              <!-- Macro badge — shown in fight mode if recipe exists -->
               {% if recipe %}
-              <div
-                class="hidden shrink-0 rounded-2xl border border-orange-500/25 bg-orange-500/10 px-3 py-2 text-center"
-                id="macro-badge"
-              >
+              <div class="hidden shrink-0 rounded-2xl px-3 py-2 text-center" id="macro-badge" style="background:rgba(249,115,22,0.10);border:1px solid rgba(249,115,22,0.22)">
                 <p class="text-[10px] font-semibold uppercase tracking-widest text-orange-400">Macros</p>
                 <p class="text-lg font-bold text-orange-300">🥩 💪</p>
               </div>
@@ -307,28 +428,32 @@
             </div>
 
             {% if error %}
-            <div class="mt-5 rounded-[20px] border border-red-300/60 bg-red-50/80 px-5 py-4 text-[13px] leading-6 text-red-700 shadow-sm" style="backdrop-filter:blur(8px)">
+            <div class="mt-5 rounded-[20px] px-5 py-4 text-[13px] leading-6 text-red-300" style="background:rgba(239,68,68,0.10);border:1px solid rgba(239,68,68,0.25)">
               {{ error }}
             </div>
             {% endif %}
 
             {% if recipe %}
             <article
-              class="mt-5 flex-1 whitespace-pre-wrap rounded-[24px] border border-slate-200/60 bg-slate-50/80 px-5 py-5 text-[13px] leading-7 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-6 sm:text-sm"
-              style="backdrop-filter:blur(8px); min-height: 320px;"
-            >
-              {{ recipe }}
-            </article>
+              class="mt-5 flex-1 whitespace-pre-wrap rounded-[24px] px-5 py-5 text-[13px] leading-7 text-white/75 sm:px-6 sm:text-sm"
+              style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);min-height:320px"
+            >{{ recipe }}</article>
             {% else %}
             <article
-              class="mt-5 flex flex-1 flex-col items-center justify-center gap-4 rounded-[24px] border-2 border-dashed border-slate-200/80 bg-slate-50/60 px-6 py-10 text-center"
-              style="min-height: 320px; backdrop-filter:blur(8px)"
+              class="mt-5 flex flex-1 flex-col items-center justify-center gap-5 rounded-[24px] px-6 py-10 text-center"
+              style="min-height:320px;background:rgba(255,255,255,0.025);border:1.5px dashed rgba(255,255,255,0.08)"
             >
-              <span class="text-4xl opacity-40">🍽️</span>
-              <p class="max-w-xs text-[13px] leading-7 text-slate-500">
-                Expect a practical recipe that uses the ingredients spotted in your image
-                and matches the flavor direction you requested.
-              </p>
+              <!-- Decorative plate icon -->
+              <div class="relative flex h-20 w-20 items-center justify-center rounded-full" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
+                <span class="text-4xl opacity-60">🍽️</span>
+                <div class="absolute inset-0 rounded-full" style="box-shadow:0 0 40px rgba(99,102,241,0.08)"></div>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white/40">Your dish awaits</p>
+                <p class="mt-1.5 max-w-xs text-[12px] leading-6 text-white/25">
+                  Upload a fridge photo and select your preferences — we'll craft a restaurant-worthy recipe from what you have.
+                </p>
+              </div>
             </article>
             {% endif %}
           </section>
@@ -336,156 +461,206 @@
         </div><!-- /grid -->
 
         <!-- ── Footer ── -->
-        <p class="mt-8 text-center text-[11px] text-slate-400/70">
-          Powered by Claude &nbsp;·&nbsp; AI Sous-Chef
+        <p class="mt-8 text-center text-[11px] text-white/20">
+          Your Personal Cook Book &nbsp;·&nbsp; Powered by Claude
         </p>
 
       </div>
     </main>
 
     <script>
-      // ── Fight Camp toggle ──────────────────────────────────────────────
+      // ── Culinary preference chips ───────────────────────────────────────
+      const CHIPS = [
+        { label: 'High Protein',    icon: '💪', value: 'high-protein'             },
+        { label: 'Indian Style',    icon: '🫙', value: 'Indian style'              },
+        { label: 'Low Carb',        icon: '🥗', value: 'low-carb'                 },
+        { label: 'Keto',            icon: '🥑', value: 'keto'                     },
+        { label: 'Vegan',           icon: '🌱', value: 'vegan'                    },
+        { label: 'Mediterranean',   icon: '🫒', value: 'Mediterranean'            },
+        { label: 'Spicy',           icon: '🌶️', value: 'spicy'                   },
+        { label: 'Quick & Easy',    icon: '⚡', value: 'quick and easy'           },
+        { label: 'Michelin Style',  icon: '⭐', value: 'Michelin-style fine dining'},
+        { label: 'Comfort Food',    icon: '🍲', value: 'comfort food'             },
+        { label: 'Japanese',        icon: '🍱', value: 'Japanese style'           },
+        { label: 'Dairy-Free',      icon: '🥛', value: 'dairy-free'              },
+      ];
+
+      const activeChips = new Set();
+
+      function renderChips() {
+        const container = document.getElementById('chips-container');
+        container.innerHTML = '';
+        CHIPS.forEach(chip => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'pref-chip' + (activeChips.has(chip.value) ? ' active' : '');
+          btn.innerHTML = `<span>${chip.icon}</span><span>${chip.label}</span>`;
+          btn.addEventListener('click', () => toggleChip(chip.value));
+          container.appendChild(btn);
+        });
+      }
+
+      function toggleChip(value) {
+        if (activeChips.has(value)) {
+          activeChips.delete(value);
+        } else {
+          activeChips.add(value);
+        }
+        renderChips();
+        syncChipsToTextarea();
+      }
+
+      function syncChipsToTextarea() {
+        const textarea = document.getElementById('preferences');
+        // Strip any previously auto-inserted chip block
+        let manual = textarea.value.replace(/\[.*?\]/g, '').replace(/,\s*,/g, ',').trim();
+        manual = manual.replace(/^,\s*|,\s*$/g, '').trim();
+
+        if (activeChips.size > 0) {
+          const chipStr = [...activeChips].join(', ');
+          textarea.value = manual ? `${manual}, ${chipStr}` : chipStr;
+        } else {
+          textarea.value = manual;
+        }
+      }
+
+      // ── Camera / file upload ────────────────────────────────────────────
+      function triggerUpload() {
+        document.getElementById('image').click();
+      }
+
+      function previewImage(input) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('img-preview').src = e.target.result;
+          document.getElementById('file-name').textContent = file.name;
+          document.getElementById('camera-rings').style.opacity = '0';
+          document.getElementById('camera-rings').style.pointerEvents = 'none';
+          document.getElementById('preview-zone').classList.remove('hidden');
+          document.getElementById('change-photo-btn').classList.remove('hidden');
+          document.getElementById('drop-hint').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function clearImage(e) {
+        e.stopPropagation();
+        document.getElementById('image').value = '';
+        document.getElementById('img-preview').src = '';
+        document.getElementById('preview-zone').classList.add('hidden');
+        document.getElementById('camera-rings').style.opacity = '1';
+        document.getElementById('camera-rings').style.pointerEvents = '';
+        document.getElementById('change-photo-btn').classList.add('hidden');
+        document.getElementById('drop-hint').classList.remove('hidden');
+      }
+
+      // ── Drag & drop onto camera zone ────────────────────────────────────
+      const cameraZone = document.getElementById('camera-zone');
+      cameraZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        cameraZone.style.background = 'rgba(99,160,255,0.07)';
+      });
+      cameraZone.addEventListener('dragleave', () => {
+        cameraZone.style.background = '';
+      });
+      cameraZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        cameraZone.style.background = '';
+        const files = e.dataTransfer.files;
+        if (files && files[0]) {
+          const dt = new DataTransfer();
+          dt.items.add(files[0]);
+          const input = document.getElementById('image');
+          input.files = dt.files;
+          previewImage(input);
+        }
+      });
+
+      // ── Fight Camp toggle ───────────────────────────────────────────────
       function toggleFightCamp(checkbox) {
         const body       = document.getElementById('app-body');
         const banner     = document.getElementById('fight-banner');
         const pill       = document.getElementById('mode-pill');
-        const heading    = document.getElementById('hero-heading');
         const sub        = document.getElementById('hero-sub');
         const shimmer    = document.getElementById('card-shimmer');
         const uploadHint = document.getElementById('upload-hint');
-        const dropIcon   = document.getElementById('drop-icon');
         const macroHint  = document.getElementById('macro-hint');
         const macroBadge = document.getElementById('macro-badge');
         const btnIcon    = document.getElementById('btn-icon');
         const btnText    = document.getElementById('btn-text');
         const btn        = document.getElementById('submit-btn');
-        const blob1      = document.getElementById('blob1');
-        const blob2      = document.getElementById('blob2');
-        const blob3      = document.getElementById('blob3');
-        const dropZone   = document.getElementById('drop-zone');
         const fcInput    = document.getElementById('fight-camp-input');
-        const prefsInput = document.getElementById('prefs-input');
         const prefsLabel = document.getElementById('prefs-label');
+        const camIcon    = document.getElementById('camera-icon');
 
         if (checkbox.checked) {
-          // ── ON ──────────────────────────────────────────
           body.classList.add('fight-mode');
           banner.classList.remove('hidden');
           fcInput.value = '1';
 
           pill.textContent = '🥊 Fight Camp — High Protein · Low Sugar';
-          pill.style.background = 'rgba(249,115,22,0.15)';
-          pill.style.borderColor = 'rgba(249,115,22,0.35)';
-          pill.style.color = '#fb923c';
+          pill.style.background = 'rgba(249,115,22,0.12)';
+          pill.style.borderColor = 'rgba(249,115,22,0.30)';
+          pill.style.color = 'rgba(253,186,116,0.95)';
 
-          sub.textContent = 'Upload a photo of your ingredients and let the AI craft a high-protein, low-sugar recipe built for peak performance.';
-          uploadHint.textContent = 'Drop a pic of your protein sources — chicken, eggs, fish, legumes…';
-          dropIcon.textContent = '🥩';
+          sub.textContent = 'Upload a photo of your protein sources and we\'ll build a high-performance recipe engineered for peak training recovery.';
+          uploadHint.textContent = 'Chicken, eggs, fish, legumes — show us what you\'ve got';
+          camIcon.setAttribute('stroke', 'rgba(253,186,116,0.9)');
           macroHint.classList.remove('hidden');
           if (macroBadge) macroBadge.classList.remove('hidden');
-
-          // Prepend fight camp directive to preferences if not already there
-          if (!prefsInput.value.toLowerCase().includes('high-protein') && !prefsInput.value.toLowerCase().includes('fight camp')) {
-            prefsInput.placeholder = 'e.g. grilled chicken bowl, post-workout shake, lean beef stir fry…';
-          }
-          prefsLabel.textContent = 'Training goals or preferences';
+          prefsLabel.textContent = 'Training goals & preferences';
 
           btnIcon.textContent = '🥊';
-          btnText.textContent = 'Generate Fight Camp Recipe';
-          btn.classList.remove('from-blue-500','via-sky-500','to-cyan-400','hover:from-blue-600','hover:via-sky-600','hover:to-cyan-500','shadow-glow','focus:ring-blue-200');
-          btn.classList.add('from-orange-500','via-orange-600','to-red-500','hover:from-orange-600','hover:via-red-600','hover:to-red-600','shadow-[0_8px_32px_rgba(234,88,12,0.32)]','focus:ring-orange-200');
+          btnText.textContent = 'Build My Fight Camp Meal';
+          btn.style.background = 'linear-gradient(135deg,#f97316,#dc2626)';
+          btn.style.boxShadow  = '0 8px 32px rgba(234,88,12,0.40)';
 
-          shimmer.style.background = 'linear-gradient(to right, rgba(249,115,22,0.15), rgba(0,0,0,0), rgba(239,68,68,0.12))';
-
-          blob1.style.background = 'rgba(234,88,12,0.18)';
-          blob2.style.background = 'rgba(239,68,68,0.15)';
-          blob3.style.background = 'rgba(251,146,60,0.12)';
-
-          dropZone.addEventListener('dragover', fightDragOver);
-          dropZone.removeEventListener('dragover', defaultDragOver);
+          shimmer.style.background = 'linear-gradient(to right, rgba(249,115,22,0.10), rgba(0,0,0,0), rgba(239,68,68,0.08))';
+          document.getElementById('blob1').style.background = 'rgba(200,50,10,0.22)';
+          document.getElementById('blob2').style.background = 'rgba(150,20,5,0.18)';
+          document.getElementById('blob3').style.background = 'rgba(239,68,68,0.12)';
 
         } else {
-          // ── OFF ─────────────────────────────────────────
           body.classList.remove('fight-mode');
           banner.classList.add('hidden');
           fcInput.value = '0';
 
-          pill.textContent = 'Personalized kitchen intelligence';
-          pill.style.background = '';
-          pill.style.borderColor = '';
-          pill.style.color = '';
+          pill.textContent = 'Your personal kitchen intelligence';
+          pill.style.background = 'rgba(99,160,255,0.10)';
+          pill.style.borderColor = 'rgba(99,160,255,0.22)';
+          pill.style.color = 'rgba(147,197,253,0.9)';
 
-          sub.textContent = 'Upload a photo of your fridge or ingredients, share your cravings or dietary needs, and get a polished recipe tailored to what you have.';
-          uploadHint.textContent = 'Drop in a quick snapshot of your fridge, produce, or pantry lineup.';
-          dropIcon.textContent = '📷';
+          sub.textContent = 'Snap a quick photo of your fridge and we\'ll calculate the best way to whip up a Michelin-class dinner from whatever you have.';
+          uploadHint.textContent = 'We\'ll identify every ingredient and build your recipe around it';
+          camIcon.setAttribute('stroke', 'rgba(147,197,253,0.9)');
           macroHint.classList.add('hidden');
           if (macroBadge) macroBadge.classList.add('hidden');
-
-          prefsInput.placeholder = 'Make it spicy, keep it sugar-free, high-protein, vegetarian…';
-          prefsLabel.textContent = 'Cravings or dietary needs';
+          prefsLabel.textContent = 'Culinary preferences';
 
           btnIcon.textContent = '✨';
-          btnText.textContent = 'Generate Recipe';
-          btn.classList.add('from-blue-500','via-sky-500','to-cyan-400','hover:from-blue-600','hover:via-sky-600','hover:to-cyan-500','shadow-glow','focus:ring-blue-200');
-          btn.classList.remove('from-orange-500','via-orange-600','to-red-500','hover:from-orange-600','hover:via-red-600','hover:to-red-600','shadow-[0_8px_32px_rgba(234,88,12,0.32)]','focus:ring-orange-200');
+          btnText.textContent = 'Cook My Dinner';
+          btn.style.background = 'linear-gradient(135deg,#3b82f6,#6366f1)';
+          btn.style.boxShadow  = '0 8px 32px rgba(99,102,241,0.35)';
 
-          shimmer.style.background = '';
-
-          blob1.style.background = '';
-          blob2.style.background = '';
-          blob3.style.background = '';
+          shimmer.style.background = 'linear-gradient(to right, rgba(56,98,210,0.12), rgba(99,57,180,0.08), rgba(56,98,210,0.06))';
+          document.getElementById('blob1').style.background = 'rgba(56,98,210,0.18)';
+          document.getElementById('blob2').style.background = 'rgba(99,57,180,0.16)';
+          document.getElementById('blob3').style.background = 'rgba(22,58,120,0.18)';
         }
       }
 
-      // ── Image preview ─────────────────────────────────────────────────
-      function previewImage(input) {
-        const preview  = document.getElementById('img-preview');
-        const fileName = document.getElementById('file-name');
-        if (input.files && input.files[0]) {
-          const file = input.files[0];
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            preview.src = e.target.result;
-            preview.classList.remove('hidden');
-          };
-          reader.readAsDataURL(file);
-          fileName.textContent = file.name;
-          fileName.classList.remove('hidden');
-        }
-      }
+      // ── Init ─────────────────────────────────────────────────────────────
+      renderChips();
 
-      // ── Drag & drop ───────────────────────────────────────────────────
-      function handleDrop(event) {
-        event.preventDefault();
-        const zone  = event.currentTarget;
-        zone.classList.remove('border-blue-400','bg-blue-50/60');
-        const files = event.dataTransfer.files;
-        if (files && files[0]) {
-          const realInput = document.getElementById('image');
-          // Transfer files to the real input via DataTransfer
-          const dt = new DataTransfer();
-          dt.items.add(files[0]);
-          realInput.files = dt.files;
-          previewImage(realInput);
-        }
+      // Restore fight mode from URL param
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('fight_camp') === '1') {
+        const t = document.getElementById('fight-toggle');
+        t.checked = true;
+        toggleFightCamp(t);
       }
-      function defaultDragOver(e) { e.preventDefault(); }
-      function fightDragOver(e) {
-        e.preventDefault();
-        e.currentTarget.classList.add('border-orange-400','bg-orange-50/20');
-      }
-
-      // ── Restore fight mode if coming back from form submit ────────────
-      window.addEventListener('DOMContentLoaded', () => {
-        const fcInput = document.getElementById('fight-camp-input');
-        // Check URL params for persistence (optional enhancement)
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('fight_camp') === '1') {
-          document.getElementById('fight-toggle').checked = true;
-          toggleFightCamp(document.getElementById('fight-toggle'));
-        }
-      });
     </script>
-
   </body>
 </html>
