@@ -1,0 +1,177 @@
+:root {
+  --bg-top: #f7efe4;
+  --bg-bottom: #f2f5ef;
+  --card: rgba(255, 252, 248, 0.84);
+  --card-border: rgba(110, 80, 42, 0.14);
+  --text: #1f1d1a;
+  --muted: #6b665f;
+  --accent: #b85c38;
+  --accent-dark: #8e4326;
+  --shadow: 0 24px 60px rgba(94, 67, 35, 0.14);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Instrument Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 179, 102, 0.28), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(120, 153, 104, 0.18), transparent 28%),
+    linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 1.5rem;
+}
+
+.hero-card,
+.result-card {
+  backdrop-filter: blur(16px);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.hero-card {
+  padding: 2.5rem;
+}
+
+.hero-copy h1,
+.result-header h2 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  line-height: 1.05;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  max-width: 10ch;
+}
+
+.eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.lede,
+.result-header p,
+.recipe-placeholder,
+.recipe-output,
+.message {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.chef-form {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.55rem;
+  font-weight: 600;
+}
+
+.field-group span {
+  font-size: 0.95rem;
+}
+
+.field-group input[type="file"],
+.field-group input[type="text"] {
+  width: 100%;
+  border: 1px solid rgba(82, 65, 44, 0.16);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.74);
+  padding: 0.95rem 1rem;
+  font: inherit;
+  color: var(--text);
+}
+
+.upload-group input[type="file"] {
+  padding: 1rem;
+}
+
+button {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: white;
+  padding: 0.95rem 1.4rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+  box-shadow: 0 14px 28px rgba(184, 92, 56, 0.26);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 32px rgba(184, 92, 56, 0.32);
+}
+
+.result-card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-header {
+  margin-bottom: 1rem;
+}
+
+.result-header h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.recipe-output,
+.recipe-placeholder,
+.message {
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(91, 74, 50, 0.1);
+  padding: 1.25rem 1.3rem;
+  white-space: pre-wrap;
+}
+
+.message.error {
+  color: #8a1f1f;
+  background: rgba(255, 235, 235, 0.88);
+}
+
+@media (max-width: 860px) {
+  .page-shell {
+    grid-template-columns: 1fr;
+    padding-top: 1.25rem;
+  }
+
+  .hero-card,
+  .result-card {
+    padding: 1.4rem;
+  }
+
+  .hero-copy h1 {
+    max-width: none;
+  }
+}
