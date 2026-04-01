@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ app_name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+            boxShadow: {
+              soft: "0 18px 45px rgba(15, 23, 42, 0.08)",
+              glow: "0 10px 30px rgba(37, 99, 235, 0.22)",
+            },
+            colors: {
+              slateMist: "#eef2f7",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e9eef5] font-sans text-slate-900">
+    <main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div class="w-full max-w-6xl">
+        <div class="grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+          <section
+            class="relative overflow-hidden rounded-[32px] border border-white/70 bg-white/75 p-6 shadow-soft backdrop-blur-xl sm:p-8 lg:p-10"
+          >
+            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-r from-blue-100/70 via-white/20 to-cyan-100/70"></div>
+            <div class="relative">
+              <div
+                class="mb-6 inline-flex items-center rounded-full border border-blue-100 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-blue-700 shadow-sm"
+              >
+                Personalized kitchen intelligence
+              </div>
+              <h1 class="max-w-xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+                {{ app_name }}
+              </h1>
+              <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                Upload a photo of your fridge or ingredients, share your cravings or
+                dietary needs, and get a polished recipe tailored to what you have.
+              </p>
+
+              <form action="/" method="post" enctype="multipart/form-data" class="mt-8 space-y-5">
+                <label
+                  for="image"
+                  class="block rounded-[28px] border border-slate-200/80 bg-slate-50/85 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_10px_30px_rgba(15,23,42,0.06)] transition duration-200 hover:border-blue-200 hover:shadow-soft"
+                >
+                  <span class="mb-2 block text-sm font-semibold text-slate-800">
+                    Ingredient photo
+                  </span>
+                  <p class="mb-4 text-sm leading-6 text-slate-500">
+                    Drop in a quick snapshot of your fridge, produce, or pantry lineup.
+                  </p>
+                  <input
+                    id="image"
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    required
+                    class="block w-full cursor-pointer rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-4 text-sm text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+                  />
+                </label>
+
+                <label
+                  for="preferences"
+                  class="block rounded-[28px] border border-slate-200/80 bg-slate-50/85 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_10px_30px_rgba(15,23,42,0.06)]"
+                >
+                  <span class="mb-2 block text-sm font-semibold text-slate-800">
+                    Cravings or dietary needs
+                  </span>
+                  <input
+                    id="preferences"
+                    name="preferences"
+                    type="text"
+                    placeholder="Make it a spicy Asian dish, keep it sugar-free, high-protein, vegetarian..."
+                    value="{{ preferences }}"
+                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  class="inline-flex w-full items-center justify-center rounded-[22px] bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-6 py-4 text-base font-semibold text-white shadow-glow transition duration-200 hover:-translate-y-0.5 hover:from-blue-600 hover:via-sky-600 hover:to-cyan-500 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto"
+                >
+                  Generate Recipe
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section
+            class="rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-soft backdrop-blur-xl sm:p-8 lg:p-10"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Output
+                </p>
+                <h2 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+                  Your AI recipe
+                </h2>
+                <p class="mt-3 text-sm leading-6 text-slate-500 sm:text-base">
+                  The model response appears here as a tailored, step-by-step recipe.
+                </p>
+              </div>
+            </div>
+
+            {% if error %}
+            <div class="mt-6 rounded-[24px] border border-red-200 bg-red-50 px-5 py-4 text-sm leading-6 text-red-700 shadow-sm">
+              {{ error }}
+            </div>
+            {% endif %}
+
+            {% if recipe %}
+            <article
+              class="mt-6 min-h-[320px] whitespace-pre-wrap rounded-[28px] border border-slate-200 bg-slate-50/90 px-5 py-5 text-sm leading-7 text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-6 sm:py-6 sm:text-[15px]"
+            >
+              {{ recipe }}
+            </article>
+            {% else %}
+            <article
+              class="mt-6 flex min-h-[320px] items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center text-sm leading-7 text-slate-500 sm:text-[15px]"
+            >
+              Expect a practical recipe that uses the ingredients spotted in your image
+              and matches the flavor direction you requested.
+            </article>
+            {% endif %}
+
+            <!-- Future feature area: interactive video tutorial player goes here. -->
+            <!-- Future feature area: saved recipe controls and favorites library go here. -->
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
