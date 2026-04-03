@@ -1,6 +1,6 @@
 # AI Sous-Chef
 
-A simple FastAPI web app that accepts a photo of your fridge or ingredients plus a flavor or dietary preference, then asks a multimodal OpenAI model to generate a tailored recipe.
+A simple FastAPI web app that accepts a photo of your fridge or ingredients plus a flavor or dietary preference, then asks a multimodal Claude model to generate a tailored recipe.
 
 ## Features
 
@@ -31,11 +31,11 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Add your OpenAI API key to `.env`:
+Add your Anthropic API key to `.env`:
 
 ```bash
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4.1-mini
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+ANTHROPIC_MODEL=claude-sonnet-4-6
 ```
 
 ## Run
