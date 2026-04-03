@@ -15,13 +15,13 @@
         --bg: #080808;
         --surface: #111111;
         --surface-2: #1a1a1a;
-        --border: rgba(255, 255, 255, 0.08);
-        --border-hover: rgba(255, 255, 255, 0.16);
+        --border: rgba(255, 255, 255, 0.14);
+        --border-hover: rgba(255, 255, 255, 0.26);
         --accent: #c8f07a;
         --accent-dim: rgba(200, 240, 122, 0.12);
-        --text: #f0f0f0;
-        --text-muted: #666666;
-        --text-subtle: #333333;
+        --text: #f5f5f5;
+        --text-muted: #b0b0b0;
+        --text-subtle: #686868;
         --radius-sm: 10px;
         --radius-md: 16px;
         --radius-lg: 24px;
@@ -63,6 +63,10 @@
         resize: none;
       }
 
+      textarea::placeholder {
+        color: #777777;
+      }
+
       .screen {
         position: absolute;
         inset: 0;
@@ -73,6 +77,7 @@
         pointer-events: none;
         transition: opacity 0.4s ease, transform 0.4s ease;
         transform: translateY(16px);
+        padding-bottom: 80px;
       }
 
       .screen.is-active {
@@ -83,6 +88,45 @@
 
       .screen-panel {
         height: 100vh;
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 20px;
+        border-radius: 12px;
+        color: #777777;
+        transition: color 0.2s ease, background 0.2s ease;
+        min-width: 64px;
+      }
+
+      .nav-item span {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-item:hover {
+        color: #888888;
+      }
+
+      .nav-item.is-active {
+        color: var(--accent);
+      }
+
+      .nav-item.is-active svg {
+        stroke: var(--accent);
+      }
+
+      body.loading-active #bottom-nav {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #screen-4 {
+        padding-bottom: 0;
       }
 
       .wordmark {
@@ -156,7 +200,7 @@
       .eyebrow {
         font-size: 11px;
         letter-spacing: 0.15em;
-        color: var(--text-muted);
+        color: #777777;
         margin-bottom: 24px;
       }
 
@@ -167,7 +211,7 @@
         font-size: 64px;
         font-weight: 400;
         line-height: 1.1;
-        color: var(--text);
+        color: #ffffff;
       }
 
       .subheadline {
@@ -175,7 +219,7 @@
         margin-bottom: 48px;
         font-size: 18px;
         line-height: 1.6;
-        color: var(--text-muted);
+        color: #999999;
       }
 
       .upload-filename {
@@ -186,7 +230,7 @@
 
       .intro-footer {
         font-size: 12px;
-        color: var(--text-subtle);
+        color: #888888;
       }
 
       .intro-right {
@@ -251,7 +295,7 @@
       .floating-continue {
         position: fixed;
         right: 40px;
-        bottom: 40px;
+        bottom: 80px;
         opacity: 0;
         pointer-events: none;
         transform: translateY(8px);
@@ -289,14 +333,14 @@
         top: 32px;
         left: 64px;
         font-size: 13px;
-        color: var(--text-muted);
+        color: #777777;
       }
 
       .step-meta {
         margin-bottom: 20px;
         font-size: 12px;
         letter-spacing: 0.1em;
-        color: var(--text-muted);
+        color: #888888;
       }
 
       .question-heading {
@@ -305,12 +349,13 @@
         font-size: 52px;
         font-weight: 400;
         line-height: 1.15;
+        color: #ffffff;
       }
 
       .question-subtext {
         margin-bottom: 40px;
         font-size: 16px;
-        color: var(--text-muted);
+        color: #888888;
       }
 
       .question-textarea {
@@ -322,12 +367,12 @@
         padding: 20px;
         font-size: 16px;
         line-height: 1.7;
-        color: var(--text);
+        color: #f0f0f0;
         transition: border-color 0.2s ease;
       }
 
       .question-textarea::placeholder {
-        color: var(--text-subtle);
+        color: #777777;
       }
 
       .question-textarea:focus {
@@ -349,9 +394,9 @@
       }
 
       .chip {
-        border: 1px solid var(--border);
+        border: 1px solid rgba(255,255,255,0.14);
         background: transparent;
-        color: var(--text-muted);
+        color: #888888;
         padding: 10px 18px;
         border-radius: 100px;
         font-size: 14px;
@@ -372,13 +417,13 @@
       .corner-action {
         position: absolute;
         right: 64px;
-        bottom: 40px;
+        bottom: 80px;
       }
 
       .bottom-actions {
         position: absolute;
         right: 64px;
-        bottom: 40px;
+        bottom: 80px;
         display: flex;
         gap: 12px;
       }
@@ -414,6 +459,12 @@
       }
 
       @keyframes spin-ring {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
         to {
           transform: rotate(360deg);
         }
@@ -465,11 +516,12 @@
         font-size: 42px;
         font-weight: 400;
         line-height: 1.2;
+        color: #ffffff;
       }
 
       .result-subtext {
         font-size: 15px;
-        color: var(--text-muted);
+        color: #888888;
       }
 
       .result-recipe-name {
@@ -478,7 +530,7 @@
         font-size: 28px;
         font-weight: 400;
         line-height: 1.2;
-        color: var(--text);
+        color: #f0f0f0;
       }
 
       #recipe-output h1,
@@ -516,7 +568,7 @@
       #viewer-content li {
         font-size: 15px;
         line-height: 1.8;
-        color: #aaaaaa;
+        color: #cccccc;
       }
 
       #recipe-output ul,
@@ -663,18 +715,18 @@
 
       #recipe-output ul li {
         background: var(--surface);
-        border: 1px solid var(--border);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 100px;
         padding: 8px 16px;
         font-size: 14px;
-        color: var(--text-muted);
+        color: #aaaaaa;
         line-height: 1;
         transition: border-color 0.15s, color 0.15s;
       }
 
       #recipe-output ul li:hover {
-        border-color: var(--border-hover);
-        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #dddddd;
       }
 
       #recipe-output ol {
@@ -698,7 +750,7 @@
         border-radius: 16px;
         padding: 20px 24px;
         font-size: 15px;
-        color: #aaaaaa;
+        color: #cccccc;
         line-height: 1.75;
         transition: border-color 0.2s;
       }
@@ -725,7 +777,7 @@
       #recipe-output p {
         font-size: 15px;
         line-height: 1.8;
-        color: #aaaaaa;
+        color: #cccccc;
         margin-bottom: 16px;
       }
 
@@ -740,7 +792,7 @@
         border-left: 3px solid var(--accent);
         border-radius: 0 12px 12px 0;
         padding: 16px 20px;
-        color: var(--text-muted);
+        color: #aaaaaa;
         font-style: italic;
         font-size: 14px;
         margin: 24px 0;
@@ -798,6 +850,247 @@
         animation: recipeFadeIn 0.6s ease forwards;
       }
 
+      .recipe-stream-shell {
+        min-height: calc(100vh - 128px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 18px;
+      }
+
+      .recipe-stream-label {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .recipe-stream-shell h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: var(--text);
+      }
+
+      .recipe-stream-preview {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        max-height: 42vh;
+        overflow: auto;
+        color: var(--text-muted);
+        font-size: 14px;
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+
+      .recipe-builder {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .recipe-assessment {
+        margin-bottom: 40px;
+      }
+
+      .recipe-step-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-top: 8px;
+      }
+
+      .recipe-step-card {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 22px;
+        padding: 24px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+        border: 1px solid var(--border);
+        transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      }
+
+      .recipe-step-card.is-active {
+        border-color: rgba(200, 240, 122, 0.45);
+        background: linear-gradient(180deg, rgba(200,240,122,0.08), rgba(255,255,255,0.02));
+      }
+
+      .recipe-step-card.is-complete {
+        border-color: rgba(200, 240, 122, 0.22);
+      }
+
+      .recipe-step-card:hover {
+        transform: translateY(-1px);
+        border-color: var(--border-hover);
+      }
+
+      .step-index-badge {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        font-family: "Playfair Display", serif;
+        font-size: 32px;
+        line-height: 1;
+        color: rgba(200, 240, 122, 0.78);
+      }
+
+      .step-content-shell {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .step-topline h3 {
+        margin: 0;
+      }
+
+      .step-state {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .step-state.is-ready {
+        color: var(--accent);
+        border-color: rgba(200, 240, 122, 0.28);
+        background: rgba(200, 240, 122, 0.08);
+      }
+
+      .step-state.is-done {
+        color: #9ae6b4;
+      }
+
+      .step-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 6px;
+      }
+
+      .step-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 11px 16px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 13px;
+        transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      }
+
+      .step-action:hover {
+        border-color: var(--border-hover);
+      }
+
+      .step-action.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #080808;
+      }
+
+      .step-action.primary:hover {
+        filter: brightness(0.95);
+      }
+
+      .step-timer {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .timer-ring-shell {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+      }
+
+      .timer-ring-shell svg {
+        width: 44px;
+        height: 44px;
+        transform: rotate(-90deg);
+      }
+
+      .timer-ring-track {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.08);
+        stroke-width: 3;
+      }
+
+      .timer-ring-progress {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 3;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 1s linear;
+      }
+
+      .timer-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: var(--text);
+      }
+
+      .timer-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .timer-copy strong {
+        color: var(--text);
+        font-size: 12px;
+      }
+
+      .timer-copy span {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      body.timer-flash::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(200, 240, 122, 0.09);
+        pointer-events: none;
+        z-index: 1200;
+        animation: timerFlash 0.55s ease;
+      }
+
+      @keyframes timerFlash {
+        0% { opacity: 0; }
+        40% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
       @keyframes recipeFadeIn {
         from { opacity: 0.7; }
         to { opacity: 1; }
@@ -828,6 +1121,149 @@
         color: #f87171;
       }
 
+      .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 20px 16px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-family: "Playfair Display", serif;
+        font-size: 32px;
+        font-weight: 400;
+        color: var(--text);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .filter-tab {
+        padding: 8px 16px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--text-muted);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .filter-tab:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+
+      .filter-tab.is-active {
+        background: var(--surface-2);
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+
+      .kitchen-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        transition: border-color 0.2s;
+      }
+
+      .kitchen-item:hover {
+        border-color: var(--border-hover);
+      }
+
+      .kitchen-item-name {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 6px;
+        text-transform: capitalize;
+      }
+
+      .kitchen-item-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .kitchen-item-status {
+        display: inline-block;
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 100px;
+        margin-top: 10px;
+      }
+
+      .status-fresh {
+        background: rgba(200,240,122,0.1);
+        color: var(--accent);
+      }
+
+      .status-expiring {
+        background: rgba(251,191,36,0.1);
+        color: #fbbf24;
+      }
+
+      .status-expired {
+        background: rgba(248,113,113,0.1);
+        color: #f87171;
+      }
+
+      #restart-button {
+        color: #888888;
+      }
+
+      #drawer-subtitle {
+        color: #777777 !important;
+      }
+
+      #drawer-content > div > div:last-child > div:first-child {
+        color: #f0f0f0 !important;
+      }
+
+      #drawer-content > div > div:last-child > div:last-child {
+        color: #888888 !important;
+      }
+
+      .filter-tab {
+        color: #777777;
+      }
+
+      .filter-tab.is-active {
+        color: #f0f0f0;
+      }
+
+      .kitchen-item-name {
+        color: #f0f0f0;
+      }
+
+      .kitchen-item-meta {
+        color: #777777;
+      }
+
+      #screen-0 #home-greeting {
+        color: #ffffff !important;
+      }
+
+      #screen-0 #home-subgreeting {
+        color: #888888;
+      }
+
+      #screen-0 [id="stat-inventory"] {
+        color: var(--accent) !important;
+      }
+
+      #screen-0 [id="stat-scans"],
+      #screen-0 [id="stat-recipes"] {
+        color: #f0f0f0 !important;
+      }
+
       @media (max-width: 1100px) {
         .intro-left,
         .question-left,
@@ -844,10 +1280,143 @@
         .question-heading {
           font-size: 42px;
         }
+
+        .result-right {
+          padding: 40px;
+        }
+
+        #recipe-output {
+          padding: 40px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .recipe-step-card {
+          grid-template-columns: 1fr;
+        }
+
+        .step-index-badge {
+          justify-content: flex-start;
+        }
+      }
+
+      .profile-chip {
+        padding: 9px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--text-muted);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: 'Geist', sans-serif;
+      }
+      .profile-chip:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+      .profile-chip.is-active {
+        background: var(--accent-dim);
+        border-color: var(--accent);
+        color: var(--accent);
       }
     </style>
   </head>
   <body>
+      <nav id="bottom-nav" style="
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: #0f0f0f;
+      border-top: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 100;
+      padding: 0 16px;
+      transition: opacity 0.3s ease;
+    ">
+      <button
+        class="nav-item"
+        data-screen="screen-0"
+        onclick="navigateTo('screen-0')"
+        type="button"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2
+                   2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="screen-1"
+        onclick="navigateTo('screen-1')"
+        type="button"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <span>Scan</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="screen-kitchen"
+        onclick="navigateTo('screen-kitchen')"
+        type="button"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0
+                   0 0-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/>
+          <line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+        <span>Kitchen</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="screen-5"
+        onclick="navigateTo('screen-5')"
+        id="nav-recipes-btn"
+        type="button"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0
+                   0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span>Recipes</span>
+      </button>
+
+      <button
+        class="nav-item"
+        data-screen="screen-profile"
+        onclick="navigateTo('screen-profile')"
+        type="button"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor"
+          stroke-width="1.5">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0
+                   0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+
     <button
       onclick="openDrawer()"
       id="saved-trigger"
@@ -1076,6 +1645,462 @@
       </div>
     </div>
 
+    <div class="screen" id="screen-0">
+      <div style="
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 0;
+      ">
+        <div style="
+          padding: 56px 48px 80px 64px;
+          display: flex;
+          flex-direction: column;
+          border-right: 1px solid var(--border);
+          min-height: 100%;
+        ">
+          <div style="margin-bottom: 64px;">
+            <div class="wordmark" style="font-size: 20px; margin-bottom: 8px;">
+              fridgechef
+            </div>
+            <div style="
+              font-family: 'Playfair Display', serif;
+              font-size: 42px;
+              font-weight: 400;
+              color: var(--text);
+              line-height: 1.15;
+              margin-bottom: 8px;
+            " id="home-greeting">Good evening.</div>
+            <div style="
+              font-size: 14px;
+              color: var(--text-muted);
+              line-height: 1.6;
+            " id="home-subgreeting">
+              What are we cooking tonight?
+            </div>
+          </div>
+
+          <div style="
+            display: flex;
+            gap: 0;
+            margin-bottom: 48px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+          ">
+            <div style="
+              flex: 1;
+              padding: 20px 16px;
+              text-align: center;
+              border-right: 1px solid var(--border);
+            ">
+              <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 28px;
+                color: var(--accent);
+                line-height: 1;
+                margin-bottom: 5px;
+              " id="stat-inventory">—</div>
+              <div style="
+                font-size: 10px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+              ">in fridge</div>
+            </div>
+            <div style="
+              flex: 1;
+              padding: 20px 16px;
+              text-align: center;
+              border-right: 1px solid var(--border);
+            ">
+              <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 28px;
+                color: var(--text);
+                line-height: 1;
+                margin-bottom: 5px;
+              " id="stat-scans">—</div>
+              <div style="
+                font-size: 10px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+              ">scans</div>
+            </div>
+            <div style="
+              flex: 1;
+              padding: 20px 16px;
+              text-align: center;
+            ">
+              <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 28px;
+                color: var(--text);
+                line-height: 1;
+                margin-bottom: 5px;
+              " id="stat-recipes">—</div>
+              <div style="
+                font-size: 10px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+              ">recipes</div>
+            </div>
+          </div>
+
+          <div id="expiring-section" style="
+            margin-bottom: 48px;
+            display: none;
+          ">
+            <div style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              margin-bottom: 16px;
+            ">
+              <div style="
+                width: 6px; height: 6px;
+                border-radius: 50%;
+                background: #fbbf24;
+                flex-shrink: 0;
+              "></div>
+              <div style="
+                font-size: 11px;
+                font-weight: 500;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+              ">use before they expire</div>
+            </div>
+            <div id="expiring-list" style="
+              display: flex;
+              flex-direction: column;
+              gap: 6px;
+            "></div>
+          </div>
+
+          <div style="flex: 1;"></div>
+
+          <div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;">
+
+              <button
+                onclick="navigateTo('screen-1')"
+                style="
+                  width:100%;padding:18px 28px;
+                  background:var(--accent);color:#080808;
+                  border-radius:var(--radius-md);
+                  font-size:15px;font-weight:500;
+                  display:flex;align-items:center;
+                  justify-content:space-between;
+                  transition:filter 0.2s,transform 0.15s;
+                "
+                onmouseover="this.style.filter='brightness(0.92)'"
+                onmouseout="this.style.filter='brightness(1)'"
+                onmousedown="this.style.transform='scale(0.99)'"
+                onmouseup="this.style.transform='scale(1)'"
+                type="button"
+              >
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0
+                             0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6
+                             l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                  <span>Scan my fridge</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+              <button
+                onclick="startInventoryRecipe()"
+                id="cook-from-inventory-btn"
+                type="button"
+                style="
+                  width:100%;padding:16px 28px;
+                  background:var(--surface);color:var(--text);
+                  border:1px solid rgba(255,255,255,0.14);
+                  border-radius:var(--radius-md);
+                  font-size:15px;font-weight:400;
+                  display:flex;align-items:center;
+                  justify-content:space-between;
+                  transition:all 0.2s;
+                "
+                onmouseover="
+                  this.style.borderColor='rgba(255,255,255,0.26)';
+                  this.style.background='var(--surface-2)'
+                "
+                onmouseout="
+                  this.style.borderColor='rgba(255,255,255,0.14)';
+                  this.style.background='var(--surface)'
+                "
+              >
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0
+                             0 0-2 2v2"/>
+                    <line x1="12" y1="12" x2="12" y2="16"/>
+                    <line x1="10" y1="14" x2="14" y2="14"/>
+                  </svg>
+                  <span>Cook from my kitchen</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+              <button
+                onclick="navigateTo('screen-receipt')"
+                type="button"
+                style="
+                  width:100%;padding:14px 28px;
+                  background:transparent;color:var(--text-muted);
+                  border:1px solid rgba(255,255,255,0.1);
+                  border-radius:var(--radius-md);
+                  font-size:14px;font-weight:400;
+                  display:flex;align-items:center;
+                  justify-content:space-between;
+                  transition:all 0.2s;
+                "
+                onmouseover="
+                  this.style.borderColor='rgba(255,255,255,0.2)';
+                  this.style.color='var(--text)'
+                "
+                onmouseout="
+                  this.style.borderColor='rgba(255,255,255,0.1)';
+                  this.style.color='var(--text-muted)'
+                "
+              >
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <polyline points="9 11 12 14 22 4"/>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0
+                             0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                  </svg>
+                  <span>Scan a receipt</span>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+            </div>
+            <div style="
+              font-size:12px;color:var(--text-subtle);
+              text-align:center;
+            " id="home-last-scan-note">
+              powered by Claude Vision
+            </div>
+          </div>
+        </div>
+
+        <div style="
+          padding: 56px 64px 80px 48px;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+        ">
+          <div style="
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 24px;
+          ">
+            <div style="
+              font-family: 'Playfair Display', serif;
+              font-size: 22px;
+              color: var(--text);
+            ">recent recipes</div>
+            <button
+              onclick="openDrawer()"
+              style="
+                font-size: 12px;
+                color: var(--accent);
+                background: none;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                transition: opacity 0.15s;
+              "
+              onmouseover="this.style.opacity='1'"
+              onmouseout="this.style.opacity='0.8'"
+              type="button"
+            >view all →</button>
+          </div>
+
+          <div id="recent-section">
+            <div id="recent-list" style="
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+            "></div>
+
+            <div id="recent-empty" style="
+              display: none;
+              padding: 60px 0;
+              text-align: center;
+            ">
+              <div style="
+                font-size: 36px;
+                margin-bottom: 16px;
+                opacity: 0.4;
+              ">🍳</div>
+              <div style="
+                font-size: 15px;
+                color: var(--text-muted);
+                margin-bottom: 8px;
+              ">No recipes yet</div>
+              <div style="
+                font-size: 13px;
+                color: var(--text-subtle);
+              ">Scan your fridge to generate your first recipe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-kitchen">
+      <div style="
+        width:100%;
+        height:100%;
+        overflow-y:auto;
+        padding:56px 64px 80px;
+      ">
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          margin-bottom:40px;
+        ">
+          <div style="
+            font-family:'Playfair Display',serif;
+            font-size:32px;
+            color:var(--text);
+          ">my kitchen</div>
+          <div style="
+            font-size:13px;
+            color:var(--text-muted);
+          " id="kitchen-count"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:24px;">
+          <input type="text" id="add-item-input"
+            placeholder="add an ingredient manually..."
+            style="
+              flex:1;background:var(--surface);
+              border:1px solid var(--border);
+              border-radius:var(--radius-md);
+              padding:13px 18px;font-size:14px;
+              font-family:'Geist',sans-serif;
+              color:var(--text);outline:none;
+              transition:border-color 0.2s;
+            "
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor='var(--border)'"
+            onkeydown="if(event.key==='Enter')addKitchenItem()"
+          />
+          <button onclick="addKitchenItem()" style="
+            padding:13px 20px;
+            background:var(--accent);color:#080808;
+            border-radius:var(--radius-md);
+            font-size:14px;font-weight:500;
+            transition:filter 0.15s;white-space:nowrap;
+          "
+          onmouseover="this.style.filter='brightness(0.92)'"
+          onmouseout="this.style.filter='brightness(1)'"
+          type="button"
+          >+ Add</button>
+        </div>
+
+        <div style="
+          display:flex;
+          gap:8px;
+          margin-bottom:28px;
+          flex-wrap: wrap;
+        ">
+          <button
+            class="filter-tab is-active"
+            data-filter="all"
+            onclick="filterKitchen('all', this)"
+            type="button"
+          >All</button>
+          <button
+            class="filter-tab"
+            data-filter="expiring_soon"
+            onclick="filterKitchen('expiring_soon', this)"
+            type="button"
+          >Use Soon</button>
+          <button
+            class="filter-tab"
+            data-filter="produce"
+            onclick="filterKitchen('produce', this)"
+            type="button"
+          >Produce</button>
+          <button
+            class="filter-tab"
+            data-filter="dairy"
+            onclick="filterKitchen('dairy', this)"
+            type="button"
+          >Dairy</button>
+          <button
+            class="filter-tab"
+            data-filter="meat"
+            onclick="filterKitchen('meat', this)"
+            type="button"
+          >Meat</button>
+          <button
+            class="filter-tab"
+            data-filter="other"
+            onclick="filterKitchen('other', this)"
+            type="button"
+          >Other</button>
+        </div>
+
+        <div id="kitchen-list" style="
+          display:grid;
+          grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
+          gap:12px;
+        "></div>
+
+        <div id="kitchen-empty" style="
+          display:none;
+          text-align:center;
+          padding:80px 0;
+          color:var(--text-muted);
+        ">
+          <div style="font-size:40px;margin-bottom:16px;">🥬</div>
+          <div style="font-size:16px;margin-bottom:8px;">
+            Your kitchen is empty
+          </div>
+          <div style="font-size:13px;opacity:0.6;">
+            Scan your fridge to get started
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <form
       id="main-form"
       action="/"
@@ -1242,6 +2267,10 @@
         <div class="loading-monogram">fc</div>
       </div>
       <div id="loading-text" class="loading-status">reading your fridge...</div>
+      <div id="loading-inventory-note" style="
+        font-size:12px;color:var(--text-subtle);
+        margin-top:8px;text-align:center;
+      "></div>
     </div>
 
     <section id="screen-5" class="screen">
@@ -1397,8 +2426,12 @@
         title: '',
         markdown: '',
         imageUrl: '',
+        structured: null,
       };
       let currentRecipeText = '';
+      let kitchenAllItems = [];
+      const stepTimers = new Map();
+      let notificationRequested = false;
 
       function saveCurrentRecipe() {
         const markdown = document.getElementById('recipe-output').innerHTML;
@@ -1529,29 +2562,23 @@
             >
               ${recipe.imageUrl ? `
                 <div style="
-                  width:100%;
-                  height:140px;
-                  overflow:hidden;
+                  width:100%;height:140px;overflow:hidden;
                 ">
                   <img
                     src="${recipe.imageUrl}"
                     style="
-                      width:100%;
-                      height:100%;
-                      object-fit:cover;
+                      width:100%;height:100%;object-fit:cover;
                     "
                     alt="${recipe.title}"
+                    onerror="this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:32px;\'>🍳</div>'"
                   />
                 </div>
               ` : `
                 <div style="
-                  width:100%;
-                  height:80px;
+                  width:100%;height:80px;
                   background:var(--surface-2);
-                  display:flex;
-                  align-items:center;
-                  justify-content:center;
-                  font-size:28px;
+                  display:flex;align-items:center;
+                  justify-content:center;font-size:28px;
                 ">🍳</div>
               `}
               <div style="padding:16px 18px;">
@@ -1883,8 +2910,435 @@
       }
 
       function showScreen(id) {
-        screens.forEach((screen) => screen.classList.remove("is-active"));
-        document.getElementById(id).classList.add("is-active");
+        document.querySelectorAll('.screen').forEach(s => {
+          s.classList.remove('is-active');
+        });
+        const target = document.getElementById(id);
+        if (target) target.classList.add('is-active');
+
+        document.querySelectorAll('.nav-item').forEach(btn => {
+          btn.classList.remove('is-active');
+          if (btn.dataset.screen === id) {
+            btn.classList.add('is-active');
+          }
+        });
+
+        const nav = document.getElementById('bottom-nav');
+        if (nav) {
+          if (id === 'screen-4') {
+            nav.style.opacity = '0';
+            nav.style.pointerEvents = 'none';
+            document.body.classList.add('loading-active');
+          } else {
+            nav.style.opacity = '1';
+            nav.style.pointerEvents = 'all';
+            document.body.classList.remove('loading-active');
+          }
+        }
+
+        if (id === 'screen-0') loadHomeData();
+        if (id === 'screen-kitchen') loadKitchenData();
+        if (id === 'screen-profile') loadProfile();
+      }
+
+      function navigateTo(screenId) {
+        if (screenId === 'screen-5') {
+          const recipeOut = document.getElementById('recipe-output');
+          if (!recipeOut || !recipeOut.innerHTML.trim()) {
+            showScreen('screen-1');
+            return;
+          }
+        }
+        showScreen(screenId);
+      }
+
+      async function loadHomeData() {
+        try {
+          const res = await fetch('/home-data');
+          const data = await res.json();
+
+          document.getElementById('stat-inventory').textContent =
+            data.total_inventory || '0';
+          document.getElementById('stat-scans').textContent =
+            data.total_scans || '0';
+          document.getElementById('stat-recipes').textContent =
+            data.recent_recipes?.length || '0';
+
+          const hour = new Date().getHours();
+          const greetings = {
+            morning: 'Good morning.',
+            afternoon: 'Good afternoon.',
+            evening: 'Good evening.',
+          };
+          const period = hour < 12
+            ? 'morning'
+            : hour < 17
+              ? 'afternoon'
+              : 'evening';
+          const greetEl = document.getElementById('home-greeting');
+          if (greetEl) greetEl.textContent = greetings[period];
+          const subEl = document.getElementById('home-subgreeting');
+          if (subEl) {
+            if (data.expiring_items && data.expiring_items.length > 0) {
+              subEl.textContent =
+                `${data.expiring_items.length} ingredient${
+                  data.expiring_items.length > 1 ? 's' : ''
+                } expiring soon.`;
+              subEl.style.color = '#fbbf24';
+            } else if (data.total_inventory > 0) {
+              subEl.textContent =
+                `${data.total_inventory} ingredients ready to cook.`;
+              subEl.style.color = 'var(--text-muted)';
+            } else {
+              subEl.textContent = "Scan your fridge to get started.";
+              subEl.style.color = 'var(--text-subtle)';
+            }
+          }
+
+          const expiringSection = document.getElementById('expiring-section');
+          const expiringList = document.getElementById('expiring-list');
+          if (data.expiring_items && data.expiring_items.length > 0) {
+            expiringSection.style.display = 'block';
+            expiringList.innerHTML = data.expiring_items.map(item => {
+              const isUrgent = item.days_left <= 1;
+              const color = isUrgent ? '#f87171' : '#fbbf24';
+              const label = item.days_left === 0
+                ? 'today'
+                : item.days_left === 1
+                  ? 'tomorrow'
+                  : `${item.days_left}d`;
+              return `
+                <div style="
+                  display:flex;
+                  align-items:center;
+                  justify-content:space-between;
+                  padding: 11px 16px;
+                  background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius: 10px;
+                ">
+                  <span style="
+                    font-size: 14px;
+                    color:var(--text);
+                    text-transform:capitalize;
+                  ">${item.name}</span>
+                  <span style="
+                    font-size: 12px;
+                    color: ${color};
+                    font-weight: 500;
+                  ">${label}</span>
+                </div>
+              `;
+            }).join('');
+          } else {
+            expiringSection.style.display = 'none';
+          }
+
+          const recentSection = document.getElementById('recent-section');
+          const recentList = document.getElementById('recent-list');
+          if (data.recent_recipes && data.recent_recipes.length > 0) {
+            recentSection.style.display = 'block';
+            recentList.innerHTML = data.recent_recipes.map(r => {
+              const date = new Date(r.created_at);
+              const dateStr = date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+              });
+              return `
+                <div style="
+                  display: grid;
+                  grid-template-columns: 72px 1fr auto;
+                  align-items:center;
+                  gap: 16px;
+                  padding: 16px;
+                  background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius:var(--radius-md);
+                  cursor:pointer;
+                  transition:border-color 0.15s, background 0.15s;
+                "
+                onmouseover="
+                  this.style.borderColor='var(--border-hover)';
+                  this.style.background='var(--surface-2)'
+                "
+                onmouseout="
+                  this.style.borderColor='var(--border)';
+                  this.style.background='var(--surface)'
+                "
+                >
+                  ${r.image_url ? `
+                    <img src="${r.image_url}" style="
+                      width: 72px;
+                      height: 56px;
+                      border-radius: 10px;
+                      object-fit:cover;
+                      display: block;
+                    "/>
+                  ` : `
+                    <div style="
+                      width: 72px;
+                      height: 56px;
+                      border-radius: 10px;
+                      background:var(--surface-2);
+                      display:flex;align-items:center;
+                      justify-content:center;
+                      font-size: 22px;
+                    ">🍳</div>
+                  `}
+                  <div style="min-width: 0;">
+                    <div style="
+                      font-family: 'Playfair Display', serif;
+                      font-size: 16px;
+                      color:var(--text);
+                      white-space:nowrap;
+                      overflow:hidden;
+                      text-overflow:ellipsis;
+                      margin-bottom: 5px;
+                      line-height: 1.3;
+                    ">${r.title || 'Untitled Recipe'}</div>
+                    <div style="
+                      font-size: 12px;
+                      color:var(--text-muted);
+                    ">${dateStr}</div>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24"
+                    fill="none" stroke="var(--text-subtle)"
+                    stroke-width="1.5" style="flex-shrink:0;">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </div>
+              `;
+            }).join('');
+            const recentEmpty = document.getElementById('recent-empty');
+            if (recentEmpty) {
+              recentEmpty.style.display =
+                data.recent_recipes.length === 0 ? 'block' : 'none';
+            }
+          } else {
+            recentSection.style.display = 'block';
+            recentList.innerHTML = '';
+            const recentEmpty = document.getElementById('recent-empty');
+            if (recentEmpty) {
+              recentEmpty.style.display = 'block';
+            }
+          }
+        } catch (err) {
+          console.error('Home data error:', err);
+        }
+      }
+
+      async function loadKitchenData() {
+        try {
+          const res = await fetch('/inventory-full');
+          const data = await res.json();
+          kitchenAllItems = data.items || [];
+
+          const countEl = document.getElementById('kitchen-count');
+          if (countEl) {
+            countEl.textContent = `${kitchenAllItems.length} items`;
+          }
+
+          filterKitchen(
+            'all',
+            document.querySelector('.filter-tab[data-filter="all"]')
+          );
+        } catch (err) {
+          console.error('Kitchen data error:', err);
+        }
+      }
+
+      function getIngredientEmoji(name, category) {
+        const n = name.toLowerCase();
+
+        const specific = {
+          'egg': '🥚', 'eggs': '🥚',
+          'milk': '🥛', 'butter': '🧈',
+          'cheese': '🧀', 'parmesan': '🧀',
+          'mozzarella': '🧀', 'cheddar': '🧀',
+          'feta': '🧀', 'cream': '🥛',
+          'yogurt': '🥛', 'sour cream': '🥛',
+
+          'garlic': '🧄', 'onion': '🧅',
+          'red onion': '🧅', 'purple onion': '🧅',
+          'potato': '🥔', 'tomato': '🍅',
+          'carrot': '🥕', 'broccoli': '🥦',
+          'lettuce': '🥬', 'spinach': '🥬',
+          'leafy greens': '🥬', 'kale': '🥬',
+          'bell pepper': '🫑', 'pepper': '🫑',
+          'red bell pepper': '🫑',
+          'orange bell pepper': '🫑',
+          'green pepper': '🫑',
+          'eggplant': '🍆', 'cucumber': '🥒',
+          'zucchini': '🥒', 'corn': '🌽',
+          'mushroom': '🍄', 'avocado': '🥑',
+          'celery': '🥬', 'cabbage': '🥬',
+
+          'dill': '🌿', 'parsley': '🌿',
+          'cilantro': '🌿', 'basil': '🌿',
+          'chive': '🌿', 'green onion': '🌿',
+          'spring onion': '🌿', 'herb': '🌿',
+
+          'lemon': '🍋', 'lime': '🍋',
+          'orange': '🍊', 'apple': '🍎',
+          'banana': '🍌', 'berry': '🫐',
+          'strawberry': '🍓', 'grape': '🍇',
+          'pear': '🍐', 'peach': '🍑',
+          'coconut': '🥥', 'plum': '🍑',
+
+          'chicken': '🍗', 'beef': '🥩',
+          'steak': '🥩', 'pork': '🥩',
+          'bacon': '🥓', 'sausage': '🌭',
+          'lamb': '🥩', 'turkey': '🍗',
+          'ground beef': '🥩',
+          'ground turkey': '🍗',
+
+          'fish': '🐟', 'salmon': '🐟',
+          'tuna': '🐟', 'shrimp': '🍤',
+          'prawn': '🍤',
+
+          'bread': '🍞', 'rice': '🍚',
+          'pasta': '🍝', 'noodle': '🍜',
+          'flour': '🌾', 'oat': '🌾',
+          'tortilla': '🫓', 'quinoa': '🌾',
+
+          'oil': '🫙', 'olive oil': '🫙',
+          'soy sauce': '🫙', 'sauce': '🫙',
+          'vinegar': '🫙', 'honey': '🍯',
+          'salt': '🧂', 'pepper': '🧂',
+          'salt and pepper': '🧂',
+          'ketchup': '🫙', 'mustard': '🫙',
+
+          'water': '💧', 'juice': '🧃',
+          'coffee': '☕', 'tea': '🍵',
+          'sugar': '🫙', 'chocolate': '🍫',
+          'leftover': '🍱', 'tupperware': '🍱',
+        };
+
+        const sortedKeys = Object.keys(specific)
+          .sort((a, b) => b.length - a.length);
+
+        for (const key of sortedKeys) {
+          if (n.includes(key)) return specific[key];
+        }
+
+        const categoryMap = {
+          produce: '🥦',
+          dairy: '🥛',
+          meat: '🥩',
+          seafood: '🐟',
+          leftover: '🍱',
+          condiment: '🫙',
+          grain: '🌾',
+          other: '🥡',
+        };
+
+        return categoryMap[category] || '🥡';
+      }
+
+      function filterKitchen(filter, tabEl) {
+        document.querySelectorAll('.filter-tab').forEach(t => {
+          t.classList.remove('is-active');
+        });
+        if (tabEl) tabEl.classList.add('is-active');
+
+        const filtered = filter === 'all'
+          ? kitchenAllItems
+          : kitchenAllItems.filter(item =>
+              filter === 'expiring_soon'
+                ? item.status === 'expiring_soon'
+                : item.category === filter
+            );
+
+        const list = document.getElementById('kitchen-list');
+        const empty = document.getElementById('kitchen-empty');
+
+        if (filtered.length === 0) {
+          list.style.display = 'none';
+          empty.style.display = 'block';
+          return;
+        }
+
+        list.style.display = 'grid';
+        empty.style.display = 'none';
+
+        list.innerHTML = filtered.map(item => {
+          const statusClass = item.status === 'expiring_soon'
+            ? 'status-expiring'
+            : item.status === 'expired'
+              ? 'status-expired'
+              : 'status-fresh';
+          const statusLabel = item.status === 'expiring_soon'
+            ? `${item.days_left}d left`
+            : item.status === 'expired'
+              ? 'expired'
+              : item.days_left !== null
+                ? `${item.days_left}d left`
+                : 'fresh';
+          const categoryEmoji = getIngredientEmoji(
+            item.name, item.category
+          );
+
+          return `
+            <div class="kitchen-item"
+              id="kitchen-item-${item.id}">
+              <div style="
+                display:flex;align-items:flex-start;
+                justify-content:space-between;
+                margin-bottom:10px;
+              ">
+                <div style="font-size:22px;">
+                  ${getIngredientEmoji(item.name,item.category)}
+                </div>
+                <button
+                  onclick="deleteKitchenItem(${item.id},event)"
+                  style="
+                    width:24px;height:24px;border-radius:50%;
+                    background:transparent;
+                    border:1px solid var(--border);
+                    color:var(--text-subtle);font-size:14px;
+                    display:flex;align-items:center;
+                    justify-content:center;
+                    transition:all 0.15s;flex-shrink:0;
+                  "
+                  onmouseover="this.style.borderColor='#f87171';this.style.color='#f87171'"
+                  onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-subtle)'"
+                  title="Delete"
+                  type="button"
+                >×</button>
+              </div>
+              <div class="kitchen-item-name">${item.name}</div>
+              <div class="kitchen-item-meta">
+                ${item.category} · ${item.quantity||'some'}
+              </div>
+              <div class="kitchen-item-status ${statusClass}">
+                ${statusLabel}
+              </div>
+              <button
+                onclick="markItemUsed(${item.id},event)"
+                style="
+                  width:100%;margin-top:12px;padding:8px;
+                  background:transparent;
+                  border:1px solid var(--border);
+                  border-radius:8px;color:var(--text-muted);
+                  font-size:12px;transition:all 0.15s;
+                  display:flex;align-items:center;
+                  justify-content:center;gap:6px;
+                  font-family:'Geist',sans-serif;
+                "
+                onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+                onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'"
+                type="button"
+              >
+                <svg width="11" height="11"
+                  viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                used it
+              </button>
+            </div>
+          `;
+        }).join('');
       }
 
       function triggerFilePicker() {
@@ -1944,6 +3398,338 @@
             onload="this.style.opacity='1'"
           />
         `;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function formatTimer(seconds) {
+        const safeSeconds = Math.max(0, Number(seconds) || 0);
+        const mins = Math.floor(safeSeconds / 60);
+        const secs = safeSeconds % 60;
+        return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      }
+
+      function parseRecipePayload(raw) {
+        if (!raw) return null;
+
+        try {
+          return JSON.parse(raw);
+        } catch {
+          const start = raw.indexOf("{");
+          const end = raw.lastIndexOf("}");
+          if (start === -1 || end === -1 || end < start) return null;
+          try {
+            return JSON.parse(raw.slice(start, end + 1));
+          } catch {
+            return null;
+          }
+        }
+      }
+
+      function renderStreamingPreview(raw) {
+        const recipeOutput = document.getElementById("recipe-output");
+        recipeOutput.innerHTML = `
+          <div class="recipe-stream-shell">
+            <div class="recipe-stream-label">Live recipe stream</div>
+            <h3>Building your recipe step by step...</h3>
+            <pre class="recipe-stream-preview">${escapeHtml(raw)}</pre>
+          </div>
+        `;
+      }
+
+      function updateStepHighlight(activeIndex) {
+        document.querySelectorAll(".recipe-step-card").forEach((card) => {
+          const index = Number(card.dataset.stepIndex);
+          card.classList.toggle("is-active", index === activeIndex);
+        });
+      }
+
+      function setStepState(index, label, className = "") {
+        const badge = document.querySelector(`[data-step-state="${index}"]`);
+        if (!badge) return;
+        badge.textContent = label;
+        badge.className = `step-state ${className}`.trim();
+      }
+
+      function buildStepTimer(step, index) {
+        if (!step.timer_seconds) return "";
+        return `
+          <div class="step-timer">
+            <div class="timer-ring-shell">
+              <svg viewBox="0 0 44 44" aria-hidden="true">
+                <circle class="timer-ring-track" cx="22" cy="22" r="18"></circle>
+                <circle
+                  class="timer-ring-progress"
+                  data-timer-ring="${index}"
+                  cx="22"
+                  cy="22"
+                  r="18"
+                  stroke-dasharray="113.1"
+                  stroke-dashoffset="0"
+                ></circle>
+              </svg>
+              <div class="timer-label" data-timer-label="${index}">
+                ${formatTimer(step.timer_seconds)}
+              </div>
+            </div>
+            <div class="timer-copy">
+              <strong>Suggested timer</strong>
+              <span>${formatTimer(step.timer_seconds)}</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="step-action"
+            data-timer-button="${index}"
+            onclick="startStepTimer(${index})"
+          >
+            start timer
+          </button>
+        `;
+      }
+
+      function renderRecipeOutput(raw) {
+        const recipeOutput = document.getElementById("recipe-output");
+        const parsed = parseRecipePayload(raw);
+
+        if (!parsed || !Array.isArray(parsed.steps)) {
+          recipeOutput.innerHTML = marked.parse(raw || "");
+          const firstHeading = recipeOutput.querySelector("h1");
+          if (firstHeading) {
+            document.getElementById("recipe-title-display").textContent =
+              firstHeading.textContent.trim();
+          }
+          currentRecipeData.structured = null;
+          currentRecipeData.markdown = recipeOutput.innerHTML;
+          return;
+        }
+
+        const recipeData = {
+          title: String(parsed.title || "Chef's Special").trim(),
+          ingredient_assessment: String(parsed.ingredient_assessment || "").trim(),
+          ingredients: Array.isArray(parsed.ingredients)
+            ? parsed.ingredients.filter(Boolean)
+            : [],
+          steps: Array.isArray(parsed.steps) ? parsed.steps : [],
+        };
+
+        currentRecipeData.structured = recipeData;
+        document.getElementById("recipe-title-display").textContent = recipeData.title;
+
+        recipeOutput.innerHTML = `
+          <div class="recipe-builder">
+            <h1>${escapeHtml(recipeData.title)}</h1>
+            ${
+              recipeData.ingredient_assessment
+                ? `<p class="recipe-assessment">${escapeHtml(recipeData.ingredient_assessment)}</p>`
+                : ""
+            }
+            ${
+              recipeData.ingredients.length
+                ? `
+                  <h2>Ingredients</h2>
+                  <ul>
+                    ${recipeData.ingredients
+                      .map((ingredient) => `<li>${escapeHtml(ingredient)}</li>`)
+                      .join("")}
+                  </ul>
+                `
+                : ""
+            }
+            <h2>Instructions</h2>
+            <div class="recipe-step-list">
+              ${recipeData.steps
+                .map((step, index) => `
+                  <article class="recipe-step-card ${index === 0 ? "is-active" : ""}" data-step-index="${index}">
+                    <div class="step-index-badge">${String(index + 1).padStart(2, "0")}</div>
+                    <div class="step-content-shell">
+                      <div class="step-topline">
+                        <h3>${escapeHtml(step.title || `Step ${index + 1}`)}</h3>
+                        <span class="step-state ${index === 0 ? "is-ready" : ""}" data-step-state="${index}">
+                          ${index === 0 ? "Ready" : "Queued"}
+                        </span>
+                      </div>
+                      <p>${escapeHtml(step.instruction || "")}</p>
+                      <div class="step-controls">
+                        ${buildStepTimer(step, index)}
+                        <button
+                          type="button"
+                          class="step-action primary"
+                          onclick="advanceStep(${index})"
+                        >
+                          ${index === recipeData.steps.length - 1 ? "finish recipe" : "next step"}
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                `)
+                .join("")}
+            </div>
+          </div>
+        `;
+
+        stepTimers.clear();
+        recipeData.steps.forEach((step, index) => {
+          const total = Number(step.timer_seconds) || 0;
+          stepTimers.set(index, {
+            total,
+            remaining: total,
+            intervalId: null,
+            running: false,
+            completed: false,
+          });
+          if (total > 0) {
+            updateTimerVisual(index);
+          }
+        });
+
+        currentRecipeData.markdown = recipeOutput.innerHTML;
+      }
+
+      function updateTimerVisual(index) {
+        const state = stepTimers.get(index);
+        if (!state || !state.total) return;
+
+        const circumference = 2 * Math.PI * 18;
+        const progress = state.total === 0 ? 1 : state.remaining / state.total;
+        const ring = document.querySelector(`[data-timer-ring="${index}"]`);
+        const label = document.querySelector(`[data-timer-label="${index}"]`);
+        const button = document.querySelector(`[data-timer-button="${index}"]`);
+
+        if (ring) {
+          ring.style.strokeDasharray = `${circumference}`;
+          ring.style.strokeDashoffset = `${circumference * (1 - progress)}`;
+        }
+        if (label) {
+          label.textContent = formatTimer(state.remaining);
+        }
+        if (button) {
+          if (state.running) {
+            button.textContent = "pause timer";
+          } else if (state.remaining === 0) {
+            button.textContent = "restart timer";
+          } else if (state.remaining === state.total) {
+            button.textContent = "start timer";
+          } else {
+            button.textContent = "resume timer";
+          }
+        }
+      }
+
+      function requestTimerNotifications() {
+        if (!("Notification" in window) || notificationRequested) return;
+        notificationRequested = true;
+        if (Notification.permission === "default") {
+          Notification.requestPermission().catch(() => {});
+        }
+      }
+
+      function playTimerSound() {
+        try {
+          const context = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = context.createOscillator();
+          const gain = context.createGain();
+          oscillator.type = "sine";
+          oscillator.frequency.value = 880;
+          gain.gain.value = 0.0001;
+          oscillator.connect(gain);
+          gain.connect(context.destination);
+          oscillator.start();
+          gain.gain.exponentialRampToValueAtTime(0.14, context.currentTime + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.45);
+          oscillator.stop(context.currentTime + 0.5);
+        } catch {}
+      }
+
+      function flashTimerFinish() {
+        document.body.classList.remove("timer-flash");
+        void document.body.offsetWidth;
+        document.body.classList.add("timer-flash");
+        setTimeout(() => document.body.classList.remove("timer-flash"), 550);
+      }
+
+      function notifyTimerFinish(index) {
+        const recipe = currentRecipeData.structured;
+        if (!recipe || !recipe.steps[index]) return;
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification("Step timer finished", {
+            body: `${recipe.steps[index].title || `Step ${index + 1}`} is ready.`,
+          });
+        }
+      }
+
+      function startStepTimer(index) {
+        const state = stepTimers.get(index);
+        if (!state || !state.total) return;
+
+        requestTimerNotifications();
+
+        if (state.intervalId) {
+          clearInterval(state.intervalId);
+          state.intervalId = null;
+          state.running = false;
+          updateTimerVisual(index);
+          return;
+        }
+
+        if (state.remaining === 0) {
+          state.remaining = state.total;
+        }
+
+        state.running = true;
+        setStepState(index, "Timing", "step-state is-ready");
+        updateTimerVisual(index);
+
+        state.intervalId = setInterval(() => {
+          state.remaining = Math.max(0, state.remaining - 1);
+          updateTimerVisual(index);
+
+          if (state.remaining === 0) {
+            clearInterval(state.intervalId);
+            state.intervalId = null;
+            state.running = false;
+            setStepState(index, "Timer done", "step-state is-ready");
+            playTimerSound();
+            flashTimerFinish();
+            notifyTimerFinish(index);
+          }
+        }, 1000);
+      }
+
+      function advanceStep(index) {
+        const state = stepTimers.get(index);
+        if (state && state.intervalId) {
+          clearInterval(state.intervalId);
+          state.intervalId = null;
+          state.running = false;
+        }
+        if (state) {
+          state.completed = true;
+        }
+
+        const currentCard = document.querySelector(`[data-step-index="${index}"]`);
+        if (currentCard) {
+          currentCard.classList.remove("is-active");
+          currentCard.classList.add("is-complete");
+        }
+        setStepState(index, "Done", "step-state is-done");
+
+        const nextIndex = index + 1;
+        const nextCard = document.querySelector(`[data-step-index="${nextIndex}"]`);
+        if (nextCard) {
+          updateStepHighlight(nextIndex);
+          const nextState = stepTimers.get(nextIndex);
+          if (nextState && !nextState.completed) {
+            setStepState(nextIndex, "Ready", "step-state is-ready");
+          }
+        }
       }
 
       recipeForm.addEventListener("submit", (event) => {
@@ -2012,9 +3798,28 @@
           resetNutritionBtn();
         }
 
+        stepTimers.forEach((state) => {
+          if (state.intervalId) {
+            clearInterval(state.intervalId);
+          }
+        });
+        stepTimers.clear();
+
         showScreen('screen-4');
         showLoadingOverlay();
         startLoadingMessages();
+        fetch('/home-data')
+          .then(r => r.json())
+          .then(data => {
+            const note = document.getElementById(
+              'loading-inventory-note'
+            );
+            if (note && data.total_inventory > 0) {
+              note.textContent =
+                `using ${data.total_inventory} known ingredients`;
+            }
+          })
+          .catch(() => {});
 
         const formData = new FormData();
         formData.append('image', imageInput.files[0]);
@@ -2076,44 +3881,68 @@
 
               if (parsed.chunk) {
                 fullText += parsed.chunk;
-                
+              
                 if (!screenShown) {
                   stopLoadingMessages();
-                  loadingOverlay.classList.remove("is-visible");
+                  loadingOverlay.classList.remove('is-visible');
                   showScreen('screen-5');
                   screenShown = true;
                 }
 
-                const displayText = fullText
-                  .split('\n')
-                  .filter(l => !l.startsWith('TITLE:'))
-                  .join('\n');
+                if (
+                  fullText.length % 200 < parsed.chunk.length
+                  || fullText.length < 400
+                ) {
+                  const displayText = fullText
+                    .replace(/```json/gi, '')
+                    .replace(/```/g, '')
+                    .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
+                    .trim();
 
-                const recipeOutput = document.getElementById('recipe-output');
-                recipeOutput.classList.add('recipe-output--streaming');
-                recipeOutput.classList.remove('recipe-output--complete');
-                recipeOutput.innerHTML = marked.parse(displayText);
-                
-                const panel = recipeOutput;
-                panel.scrollTop = panel.scrollHeight;
+                  const recipeOut = document.getElementById(
+                    'recipe-output'
+                  );
+
+                  if (displayText.length > 20) {
+                    recipeOut.innerHTML = marked.parse(displayText);
+                    recipeOut.scrollTop = recipeOut.scrollHeight;
+                  }
+                }
               }
 
               if (parsed.done) {
-                if (parsed.image_url) {
-                  showHeroImage(parsed.image_url);
-                }
+                const indicator = document.getElementById('stream-indicator');
+                if (indicator) indicator.remove();
+
+                const cleanText = fullText
+                  .replace(/```json/gi, '')
+                  .replace(/```/g, '')
+                  .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
+                  .trim();
+
+                const recipeOut = document.getElementById('recipe-output');
+                recipeOut.innerHTML = marked.parse(cleanText);
+                recipeOut.classList.add('recipe-output--complete');
+                currentRecipeData.markdown = recipeOut.innerHTML;
+
                 if (parsed.title) {
                   const titleEl = document.getElementById('recipe-title-display');
                   if (titleEl) titleEl.textContent = parsed.title;
                 }
-                const recipeOutput = document.getElementById('recipe-output');
-                recipeOutput.classList.remove('recipe-output--streaming');
-                recipeOutput.classList.add('recipe-output--complete');
+                if (parsed.image_url) {
+                  showHeroImage(parsed.image_url);
+                }
                 const saveBtn = document.getElementById('save-btn');
                 if (saveBtn) {
                   saveBtn.textContent = 'save this recipe';
                   saveBtn.style.background = 'var(--accent-dim)';
                   saveBtn.style.color = 'var(--accent)';
+                  saveBtn.style.display = 'flex';
+                }
+                const nutritionBtn = document.getElementById('nutrition-btn');
+                if (nutritionBtn) {
+                  nutritionBtn.style.display = 'flex';
+                  resetNutritionBtn();
                 }
               }
             }
@@ -2156,23 +3985,1344 @@
       if (recipe || error) {
         showScreen("screen-5");
         if (recipe) {
-          const recipeOutput = document.getElementById("recipe-output");
-          recipeOutput.innerHTML = marked.parse(recipe);
-          recipeOutput.classList.add('recipe-output--complete');
-          const firstHeading = recipeOutput.querySelector("h1");
-          if (firstHeading) {
-            document.getElementById("recipe-title-display").textContent =
-              firstHeading.textContent.trim();
-          }
+          renderRecipeOutput(recipe);
           {% if image_url %}
           showHeroImage({{ image_url | tojson }});
           {% endif %}
         }
       } else {
-        showScreen("screen-1");
+        showScreen("screen-0");
       }
 
       updateSavedCount();
+
+      function selectProfileChip(groupId, el) {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        group.querySelectorAll('.profile-chip').forEach(
+          c => c.classList.remove('is-active')
+        );
+        el.classList.add('is-active');
+      }
+
+      async function loadProfile() {
+        try {
+          const res = await fetch('/profile');
+          const data = await res.json();
+          const nameEl = document.getElementById(
+            'profile-name'
+          );
+          if (nameEl) nameEl.value = data.name || '';
+          const fields = {
+            'profile-calories': data.daily_calories,
+            'profile-protein': data.daily_protein,
+            'profile-carbs': data.daily_carbs,
+            'profile-fat': data.daily_fat,
+          };
+          Object.entries(fields).forEach(([id, val]) => {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+          });
+          [
+            ['diet-chips', data.diet_type],
+            ['cooking-for-chips', String(data.cooking_for)],
+            ['skill-chips', data.skill_level],
+          ].forEach(([groupId, value]) => {
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            group.querySelectorAll('.profile-chip')
+              .forEach(c => {
+                c.classList.remove('is-active');
+                if (c.dataset.value === value) {
+                  c.classList.add('is-active');
+                }
+              });
+          });
+        } catch (err) {
+          console.error('Profile load error:', err);
+        }
+      }
+
+      async function saveProfile() {
+        const btn = document.getElementById(
+          'profile-save-btn'
+        );
+        const msg = document.getElementById(
+          'profile-save-msg'
+        );
+        if (btn) {
+          btn.textContent = 'Saving...';
+          btn.style.opacity = '0.7';
+        }
+        const getActive = (groupId) => {
+          const el = document.querySelector(
+            `#${groupId} .profile-chip.is-active`
+          );
+          return el?.dataset?.value || null;
+        };
+        const payload = {
+          name: document.getElementById('profile-name')
+            ?.value?.trim() || '',
+          daily_calories: parseInt(
+            document.getElementById('profile-calories')
+              ?.value
+          ) || 2000,
+          daily_protein: parseInt(
+            document.getElementById('profile-protein')
+              ?.value
+          ) || 150,
+          daily_carbs: parseInt(
+            document.getElementById('profile-carbs')
+              ?.value
+          ) || 200,
+          daily_fat: parseInt(
+            document.getElementById('profile-fat')
+              ?.value
+          ) || 65,
+          diet_type: getActive('diet-chips') || 'none',
+          cooking_for: parseInt(
+            getActive('cooking-for-chips')
+          ) || 1,
+          skill_level: getActive('skill-chips')
+            || 'beginner',
+        };
+        try {
+          const res = await fetch('/profile', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (btn) {
+            btn.textContent = 'Save profile';
+            btn.style.opacity = '1';
+          }
+          if (msg) {
+            msg.textContent = data.success
+              ? 'Profile saved ✓'
+              : 'Error saving. Try again.';
+            msg.style.color = data.success
+              ? 'var(--accent)'
+              : '#f87171';
+            msg.style.opacity = '1';
+            setTimeout(() => {
+              msg.style.opacity = '0';
+            }, 2500);
+          }
+        } catch {
+          if (btn) {
+            btn.textContent = 'Save profile';
+            btn.style.opacity = '1';
+          }
+        }
+      }
+
+      async function markItemUsed(itemId, event) {
+        event.stopPropagation();
+        const card = document.getElementById(
+          `kitchen-item-${itemId}`
+        );
+        if (!card) return;
+        card.style.transition =
+          'opacity 0.3s, transform 0.3s';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        try {
+          const res = await fetch(
+            `/inventory/mark-used/${itemId}`,
+            { method: 'POST' }
+          );
+          const data = await res.json();
+          if (data.success) {
+            setTimeout(() => {
+              card.remove();
+              kitchenAllItems = kitchenAllItems.filter(
+                i => i.id !== itemId
+              );
+              const countEl = document.getElementById(
+                'kitchen-count'
+              );
+              if (countEl) {
+                countEl.textContent =
+                  `${kitchenAllItems.length} items`;
+              }
+              if (document.getElementById('screen-0')
+                ?.classList.contains('is-active')) {
+                loadHomeData();
+              }
+            }, 300);
+          } else {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          }
+        } catch {
+          card.style.opacity = '1';
+          card.style.transform = 'scale(1)';
+        }
+      }
+
+      async function deleteKitchenItem(itemId, event) {
+        event.stopPropagation();
+        const card = document.getElementById(
+          `kitchen-item-${itemId}`
+        );
+        if (!card) return;
+        card.style.transition =
+          'opacity 0.3s, transform 0.3s, border-color 0.15s';
+        card.style.borderColor = '#f87171';
+        setTimeout(() => {
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+        }, 100);
+        try {
+          const res = await fetch(
+            `/inventory/delete/${itemId}`,
+            { method: 'DELETE' }
+          );
+          const data = await res.json();
+          if (data.success) {
+            setTimeout(() => {
+              card.remove();
+              kitchenAllItems = kitchenAllItems.filter(
+                i => i.id !== itemId
+              );
+              const countEl = document.getElementById(
+                'kitchen-count'
+              );
+              if (countEl) {
+                countEl.textContent =
+                  `${kitchenAllItems.length} items`;
+              }
+            }, 400);
+          } else {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+            card.style.borderColor = 'var(--border)';
+          }
+        } catch {
+          card.style.opacity = '1';
+          card.style.transform = 'scale(1)';
+          card.style.borderColor = 'var(--border)';
+        }
+      }
+
+      async function addKitchenItem() {
+        const input = document.getElementById(
+          'add-item-input'
+        );
+        const name = input?.value?.trim();
+        if (!name) return;
+        input.disabled = true;
+        input.style.opacity = '0.5';
+        try {
+          const res = await fetch('/inventory/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: name,
+              category: 'auto'
+            }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            input.value = '';
+            kitchenAllItems.unshift({
+              id: data.item.id,
+              name: data.item.name,
+              category: data.item.category,
+              status: data.item.status,
+              days_left: data.item.days_left,
+              quantity: data.item.quantity || 'some',
+            });
+            const activeTab = document.querySelector(
+              '.filter-tab.is-active'
+            );
+            const currentFilter =
+              activeTab?.dataset?.filter || 'all';
+            filterKitchen(currentFilter, activeTab);
+            const countEl = document.getElementById(
+              'kitchen-count'
+            );
+            if (countEl) {
+              countEl.textContent =
+                `${kitchenAllItems.length} items`;
+            }
+            input.style.borderColor = 'var(--accent)';
+            setTimeout(() => {
+              input.style.borderColor = 'var(--border)';
+            }, 1500);
+          } else {
+            input.style.borderColor = '#f87171';
+            setTimeout(() => {
+              input.style.borderColor = 'var(--border)';
+            }, 1500);
+          }
+        } catch {
+          input.style.borderColor = '#f87171';
+          setTimeout(() => {
+            input.style.borderColor = 'var(--border)';
+          }, 1500);
+        } finally {
+          input.disabled = false;
+          input.style.opacity = '1';
+        }
+      }
+
+      function startInventoryRecipe() {
+        const modal = document.getElementById(
+          'inventory-recipe-modal'
+        );
+        if (modal) {
+          modal.style.display = 'flex';
+          const ta = document.getElementById(
+            'inventory-recipe-prefs'
+          );
+          if (ta) ta.value = '';
+          modal.querySelectorAll('.chip').forEach(
+            c => c.classList.remove('is-selected')
+          );
+        }
+      }
+
+      function closeInventoryModal() {
+        const modal = document.getElementById(
+          'inventory-recipe-modal'
+        );
+        if (modal) modal.style.display = 'none';
+      }
+
+      function toggleInventoryChip(el) {
+        el.classList.toggle('is-selected');
+        const ta = document.getElementById(
+          'inventory-recipe-prefs'
+        );
+        if (!ta) return;
+        const text = el.dataset.text;
+        if (el.classList.contains('is-selected')) {
+          const current = ta.value.trim();
+          ta.value = current
+            ? current + ', ' + text
+            : text;
+        } else {
+          ta.value = ta.value
+            .replace(', ' + text, '')
+            .replace(text + ', ', '')
+            .replace(text, '')
+            .trim();
+        }
+      }
+
+      async function startInventoryStream() {
+        closeInventoryModal();
+
+        const prefs = document.getElementById(
+          'inventory-recipe-prefs'
+        )?.value?.trim() || '';
+
+        const existingCard = document.getElementById(
+          'nutrition-card'
+        );
+        if (existingCard) existingCard.remove();
+        const existingErr = document.getElementById(
+          'nutrition-error'
+        );
+        if (existingErr) existingErr.remove();
+        const nutritionBtn = document.getElementById(
+          'nutrition-btn'
+        );
+        if (nutritionBtn) {
+          nutritionBtn.style.display = 'flex';
+          resetNutritionBtn();
+        }
+
+        stepTimers.forEach((state) => {
+          if (state.intervalId) {
+            clearInterval(state.intervalId);
+          }
+        });
+        stepTimers.clear();
+
+        showScreen('screen-4');
+        showLoadingOverlay();
+        startLoadingMessages();
+
+        const note = document.getElementById(
+          'loading-inventory-note'
+        );
+        if (note) {
+          note.textContent =
+            'cooking from your saved inventory...';
+        }
+
+        const formData = new FormData();
+        formData.append('preferences', prefs);
+
+        try {
+          const response = await fetch(
+            '/stream-from-inventory',
+            { method: 'POST', body: formData }
+          );
+          if (!response.ok) throw new Error('Server error');
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = '';
+          let fullText = '';
+          let screenShown = false;
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue;
+              let parsed;
+              try {
+                parsed = JSON.parse(line.slice(6));
+              } catch {
+                continue;
+              }
+
+              if (parsed.error) {
+                stopLoadingMessages();
+                loadingOverlay.classList.remove('is-visible');
+                showScreen('screen-5');
+                document.getElementById(
+                  'recipe-output'
+                ).innerHTML = `
+                  <div style="color:#f87171;padding:20px 0;">
+                    <p style="font-size:18px;margin-bottom:8px;">
+                      Something went wrong
+                    </p>
+                    <p style="font-size:14px;opacity:0.7;">
+                      ${parsed.error}
+                    </p>
+                  </div>
+                `;
+                return;
+              }
+
+              if (parsed.chunk) {
+                fullText += parsed.chunk;
+                if (!screenShown) {
+                  stopLoadingMessages();
+                  loadingOverlay.classList.remove('is-visible');
+                  showScreen('screen-5');
+                  screenShown = true;
+                }
+                if (
+                  fullText.length % 200 < parsed.chunk.length
+                  || fullText.length < 400
+                ) {
+                  const displayText = fullText
+                    .replace(/```json/gi, '')
+                    .replace(/```/g, '')
+                    .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
+                    .trim();
+                  if (displayText.length > 20) {
+                    const recipeOut = document.getElementById(
+                      'recipe-output'
+                    );
+                    recipeOut.innerHTML =
+                      marked.parse(displayText);
+                    recipeOut.scrollTop =
+                      recipeOut.scrollHeight;
+                  }
+                }
+              }
+
+              if (parsed.done) {
+                const indicator = document.getElementById(
+                  'stream-indicator'
+                );
+                if (indicator) indicator.remove();
+
+                const cleanText = fullText
+                  .replace(/```json/gi, '')
+                  .replace(/```/g, '')
+                  .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
+                  .trim();
+                const recipeOut = document.getElementById(
+                  'recipe-output'
+                );
+                recipeOut.innerHTML = marked.parse(cleanText);
+                recipeOut.classList.add(
+                  'recipe-output--complete'
+                );
+                currentRecipeData.markdown =
+                  recipeOut.innerHTML;
+
+                if (parsed.title) {
+                  const titleEl = document.getElementById(
+                    'recipe-title-display'
+                  );
+                  if (titleEl) {
+                    titleEl.textContent = parsed.title;
+                  }
+                }
+                if (parsed.image_url) {
+                  showHeroImage(parsed.image_url);
+                }
+                const saveBtn = document.getElementById(
+                  'save-btn'
+                );
+                if (saveBtn) {
+                  saveBtn.textContent = 'save this recipe';
+                  saveBtn.style.background =
+                    'var(--accent-dim)';
+                  saveBtn.style.color = 'var(--accent)';
+                  saveBtn.style.display = 'flex';
+                }
+                if (nutritionBtn) {
+                  nutritionBtn.style.display = 'flex';
+                  resetNutritionBtn();
+                }
+              }
+            }
+          }
+        } catch (err) {
+          stopLoadingMessages();
+          loadingOverlay.classList.remove('is-visible');
+          showScreen('screen-5');
+          document.getElementById(
+            'recipe-output'
+          ).innerHTML = `
+            <div style="color:#f87171;padding:20px 0;">
+              <p>Connection error. Please try again.</p>
+            </div>
+          `;
+        }
+      }
+
+      let receiptScannedItems = [];
+
+      function handleReceiptFileSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = document.getElementById(
+            'receipt-preview-img'
+          );
+          const container = document.getElementById(
+            'receipt-preview-container'
+          );
+          if (img) img.src = e.target.result;
+          if (container) {
+            container.style.display = 'block';
+          }
+        };
+        reader.readAsDataURL(file);
+
+        const btn = document.getElementById(
+          'receipt-scan-btn'
+        );
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+        }
+      }
+
+      function showReceiptState(state) {
+        ['default', 'loading', 'results', 'error']
+          .forEach(s => {
+            const el = document.getElementById(
+              `receipt-${s}-state`
+            );
+            if (el) {
+              el.style.display =
+                s === state ? 'block' : 'none';
+            }
+          });
+      }
+
+      async function submitReceiptScan() {
+        const input = document.getElementById(
+          'receipt-file-input'
+        );
+        if (!input?.files[0]) return;
+
+        showReceiptState('loading');
+
+        const formData = new FormData();
+        formData.append('image', input.files[0]);
+
+        try {
+          const res = await fetch('/scan-receipt', {
+            method: 'POST',
+            body: formData,
+          });
+          const data = await res.json();
+
+          if (!data.success || !data.items?.length) {
+            showReceiptState('error');
+            const errEl = document.getElementById(
+              'receipt-error-msg'
+            );
+            if (errEl) {
+              errEl.textContent = data.error ||
+                'No items found. Try a clearer photo.';
+            }
+            return;
+          }
+
+          receiptScannedItems = data.items;
+          renderReceiptItems(data);
+          showReceiptState('results');
+
+        } catch (err) {
+          showReceiptState('error');
+          const errEl = document.getElementById(
+            'receipt-error-msg'
+          );
+          if (errEl) {
+            errEl.textContent =
+              'Connection error. Please try again.';
+          }
+        }
+      }
+
+      function renderReceiptItems(data) {
+        const list = document.getElementById(
+          'receipt-items-list'
+        );
+        const summary = document.getElementById(
+          'receipt-summary'
+        );
+
+        if (summary) {
+          summary.textContent =
+            `${data.total} items · ` +
+            `${data.added} new, ${data.updated} updated`;
+        }
+
+        if (!list) return;
+        list.innerHTML = receiptScannedItems.map((item, idx) => `
+          <div style="
+            display:flex;align-items:center;
+            justify-content:space-between;
+            padding:12px 16px;
+            background:var(--surface);
+            border:1px solid rgba(255,255,255,0.1);
+            border-radius:10px;
+          ">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:18px;">
+                ${getIngredientEmoji(item.name, 'other')}
+              </span>
+              <div>
+                <div style="
+                  font-size:14px;color:var(--text);
+                  text-transform:capitalize;
+                ">${item.name}</div>
+                <div style="
+                  font-size:12px;color:var(--text-muted);
+                ">${item.quantity || 'some'}</div>
+              </div>
+            </div>
+            <button
+              onclick="removeReceiptItem(${idx}, this)"
+              type="button"
+              style="
+                width:24px;height:24px;border-radius:50%;
+                background:transparent;
+                border:1px solid rgba(255,255,255,0.1);
+                color:var(--text-subtle);font-size:14px;
+                display:flex;align-items:center;
+                justify-content:center;
+                transition:all 0.15s;cursor:pointer;
+              "
+              onmouseover="
+                this.style.borderColor='#f87171';
+                this.style.color='#f87171'
+              "
+              onmouseout="
+                this.style.borderColor='rgba(255,255,255,0.1)';
+                this.style.color='var(--text-subtle)'
+              "
+            >×</button>
+          </div>
+        `).join('');
+      }
+
+      function removeReceiptItem(idx, btn) {
+        receiptScannedItems.splice(idx, 1);
+        const row = btn.parentElement;
+        if (row) {
+          row.style.transition = 'opacity 0.2s';
+          row.style.opacity = '0';
+          setTimeout(() => {
+            row.remove();
+            const summary = document.getElementById(
+              'receipt-summary'
+            );
+            if (summary) {
+              summary.textContent =
+                `${receiptScannedItems.length} items selected`;
+            }
+          }, 200);
+        }
+      }
+
+      async function confirmReceiptItems() {
+        const btn = document.getElementById(
+          'receipt-confirm-btn'
+        );
+        if (btn) {
+          btn.textContent = 'Adding to kitchen...';
+          btn.style.opacity = '0.7';
+        }
+
+        try {
+          await loadKitchenData();
+          navigateTo('screen-kitchen');
+          resetReceiptScreen();
+          if (document.getElementById('screen-0')
+            ?.classList.contains('is-active')) {
+            loadHomeData();
+          }
+        } catch {
+          if (btn) {
+            btn.textContent = 'Add all to kitchen →';
+            btn.style.opacity = '1';
+          }
+        }
+      }
+
+      function resetReceiptScreen() {
+        receiptScannedItems = [];
+        const input = document.getElementById(
+          'receipt-file-input'
+        );
+        if (input) input.value = '';
+        const img = document.getElementById(
+          'receipt-preview-img'
+        );
+        if (img) img.src = '';
+        const container = document.getElementById(
+          'receipt-preview-container'
+        );
+        if (container) container.style.display = 'none';
+        const btn = document.getElementById(
+          'receipt-scan-btn'
+        );
+        if (btn) {
+          btn.disabled = true;
+          btn.style.opacity = '0.4';
+          btn.style.cursor = 'not-allowed';
+        }
+        const confirmBtn = document.getElementById(
+          'receipt-confirm-btn'
+        );
+        if (confirmBtn) {
+          confirmBtn.textContent = 'Add all to kitchen →';
+          confirmBtn.style.opacity = '1';
+        }
+        showReceiptState('default');
+      }
     </script>
+    <div class="screen" id="screen-profile">
+      <div style="
+        width:100%;height:100%;
+        overflow-y:auto;
+        padding:56px 64px 80px;
+        max-width:680px;
+        margin:0 auto;
+      ">
+        <div style="
+          font-family:'Playfair Display',serif;
+          font-size:32px;color:var(--text);
+          margin-bottom:8px;
+        ">my profile</div>
+        <div style="
+          font-size:14px;color:var(--text-muted);
+          margin-bottom:40px;
+        ">Your goals shape every recipe</div>
+
+        <div style="margin-bottom:28px;">
+          <label style="
+            display:block;font-size:11px;
+            font-weight:500;color:var(--text-muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;margin-bottom:10px;
+          ">Your name</label>
+          <input type="text" id="profile-name"
+            placeholder="e.g. Alex"
+            style="
+              width:100%;background:var(--surface);
+              border:1px solid var(--border);
+              border-radius:var(--radius-md);
+              padding:14px 18px;font-size:15px;
+              font-family:'Geist',sans-serif;
+              color:var(--text);outline:none;
+              transition:border-color 0.2s;
+            "
+            onfocus="this.style.borderColor='var(--accent)'"
+            onblur="this.style.borderColor='var(--border)'"
+          />
+        </div>
+
+        <div style="margin-bottom:28px;">
+          <label style="
+            display:block;font-size:11px;
+            font-weight:500;color:var(--text-muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;margin-bottom:10px;
+          ">Diet type</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;"
+            id="diet-chips">
+            <button class="profile-chip is-active"
+              data-value="none"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >No restriction</button>
+            <button class="profile-chip"
+              data-value="vegetarian"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >Vegetarian</button>
+            <button class="profile-chip"
+              data-value="vegan"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >Vegan</button>
+            <button class="profile-chip"
+              data-value="keto"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >Keto</button>
+            <button class="profile-chip"
+              data-value="gluten-free"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >Gluten-free</button>
+            <button class="profile-chip"
+              data-value="halal"
+              onclick="selectProfileChip('diet-chips',this)"
+              type="button"
+            >Halal</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:28px;">
+          <label style="
+            display:block;font-size:11px;
+            font-weight:500;color:var(--text-muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;margin-bottom:10px;
+          ">Cooking for</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;"
+            id="cooking-for-chips">
+            <button class="profile-chip is-active"
+              data-value="1"
+              onclick="selectProfileChip('cooking-for-chips',this)"
+              type="button"
+            >Just me</button>
+            <button class="profile-chip"
+              data-value="2"
+              onclick="selectProfileChip('cooking-for-chips',this)"
+              type="button"
+            >2 people</button>
+            <button class="profile-chip"
+              data-value="4"
+              onclick="selectProfileChip('cooking-for-chips',this)"
+              type="button"
+            >4 people</button>
+            <button class="profile-chip"
+              data-value="6"
+              onclick="selectProfileChip('cooking-for-chips',this)"
+              type="button"
+            >6+ people</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:28px;">
+          <label style="
+            display:block;font-size:11px;
+            font-weight:500;color:var(--text-muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;margin-bottom:10px;
+          ">Skill level</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;"
+            id="skill-chips">
+            <button class="profile-chip is-active"
+              data-value="beginner"
+              onclick="selectProfileChip('skill-chips',this)"
+              type="button"
+            >Beginner</button>
+            <button class="profile-chip"
+              data-value="intermediate"
+              onclick="selectProfileChip('skill-chips',this)"
+              type="button"
+            >Intermediate</button>
+            <button class="profile-chip"
+              data-value="advanced"
+              onclick="selectProfileChip('skill-chips',this)"
+              type="button"
+            >Advanced</button>
+          </div>
+        </div>
+
+        <div style="
+          border-top:1px solid var(--border);
+          padding-top:28px;margin-bottom:28px;
+        ">
+          <div style="
+            font-size:11px;font-weight:500;
+            color:var(--text-muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;margin-bottom:20px;
+          ">daily goals (optional)</div>
+          <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:14px;
+          ">
+            <div>
+              <label style="
+                display:block;font-size:12px;
+                color:var(--text-muted);margin-bottom:8px;
+              ">Calories (kcal)</label>
+              <input type="number" id="profile-calories"
+                value="2000" min="500" max="5000"
+                style="
+                  width:100%;background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius:var(--radius-sm);
+                  padding:12px 14px;font-size:15px;
+                  font-family:'Geist',sans-serif;
+                  color:var(--text);outline:none;
+                  transition:border-color 0.2s;
+                "
+                onfocus="this.style.borderColor='var(--accent)'"
+                onblur="this.style.borderColor='var(--border)'"
+              />
+            </div>
+            <div>
+              <label style="
+                display:block;font-size:12px;
+                color:var(--text-muted);margin-bottom:8px;
+              ">Protein (g)</label>
+              <input type="number" id="profile-protein"
+                value="150" min="0" max="500"
+                style="
+                  width:100%;background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius:var(--radius-sm);
+                  padding:12px 14px;font-size:15px;
+                  font-family:'Geist',sans-serif;
+                  color:var(--text);outline:none;
+                  transition:border-color 0.2s;
+                "
+                onfocus="this.style.borderColor='var(--accent)'"
+                onblur="this.style.borderColor='var(--border)'"
+              />
+            </div>
+            <div>
+              <label style="
+                display:block;font-size:12px;
+                color:var(--text-muted);margin-bottom:8px;
+              ">Carbs (g)</label>
+              <input type="number" id="profile-carbs"
+                value="200" min="0" max="600"
+                style="
+                  width:100%;background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius:var(--radius-sm);
+                  padding:12px 14px;font-size:15px;
+                  font-family:'Geist',sans-serif;
+                  color:var(--text);outline:none;
+                  transition:border-color 0.2s;
+                "
+                onfocus="this.style.borderColor='var(--accent)'"
+                onblur="this.style.borderColor='var(--border)'"
+              />
+            </div>
+            <div>
+              <label style="
+                display:block;font-size:12px;
+                color:var(--text-muted);margin-bottom:8px;
+              ">Fat (g)</label>
+              <input type="number" id="profile-fat"
+                value="65" min="0" max="300"
+                style="
+                  width:100%;background:var(--surface);
+                  border:1px solid var(--border);
+                  border-radius:var(--radius-sm);
+                  padding:12px 14px;font-size:15px;
+                  font-family:'Geist',sans-serif;
+                  color:var(--text);outline:none;
+                  transition:border-color 0.2s;
+                "
+                onfocus="this.style.borderColor='var(--accent)'"
+                onblur="this.style.borderColor='var(--border)'"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button onclick="saveProfile()"
+          id="profile-save-btn"
+          style="
+            width:100%;padding:16px;
+            background:var(--accent);color:#080808;
+            border-radius:var(--radius-md);
+            font-size:15px;font-weight:500;
+            transition:filter 0.2s;margin-bottom:12px;
+          "
+          onmouseover="this.style.filter='brightness(0.92)'"
+          onmouseout="this.style.filter='brightness(1)'"
+          type="button"
+        >Save profile</button>
+        <div id="profile-save-msg" style="
+          text-align:center;font-size:13px;
+          color:var(--accent);height:20px;
+          transition:opacity 0.3s;opacity:0;
+        "></div>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-receipt">
+      <div style="
+        width:100%;height:100%;
+        display:flex;flex-direction:column;
+      ">
+        <div style="
+          padding:40px 64px 0;
+          display:flex;align-items:center;gap:16px;
+          margin-bottom:32px;
+        ">
+          <button
+            onclick="navigateTo('screen-0')"
+            type="button"
+            style="
+              background:var(--surface);
+              border:1px solid rgba(255,255,255,0.14);
+              color:var(--text-muted);
+              padding:8px 14px;border-radius:8px;
+              font-size:13px;transition:all 0.15s;
+            "
+            onmouseover="this.style.color='var(--text)'"
+            onmouseout="this.style.color='var(--text-muted)'"
+          >← back</button>
+          <div style="
+            font-family:'Playfair Display',serif;
+            font-size:24px;color:var(--text);
+          ">scan a receipt</div>
+        </div>
+
+        <div style="
+          flex:1;display:flex;
+          padding:0 64px 80px;gap:40px;
+          overflow:hidden;
+        ">
+          <div style="
+            width:45%;display:flex;
+            flex-direction:column;gap:20px;
+          ">
+            <div style="
+              font-size:14px;color:var(--text-muted);
+              line-height:1.6;
+            ">
+              Take a photo of your grocery receipt.
+              We'll extract all food items and add them
+              to your kitchen inventory automatically.
+            </div>
+
+            <div
+              id="receipt-drop-zone"
+              onclick="document.getElementById('receipt-file-input').click()"
+              style="
+                border:1.5px dashed rgba(255,255,255,0.14);
+                border-radius:16px;padding:40px 24px;
+                text-align:center;cursor:pointer;
+                transition:all 0.2s;flex:1;
+                display:flex;flex-direction:column;
+                align-items:center;justify-content:center;
+                gap:16px;background:var(--surface);
+              "
+              onmouseover="
+                this.style.borderColor='rgba(255,255,255,0.26)';
+                this.style.background='var(--surface-2)'
+              "
+              onmouseout="
+                this.style.borderColor='rgba(255,255,255,0.14)';
+                this.style.background='var(--surface)'
+              "
+            >
+              <svg width="48" height="48" viewBox="0 0 24 24"
+                fill="none" stroke="rgba(255,255,255,0.3)"
+                stroke-width="1">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0
+                         0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+              <div>
+                <div style="
+                  font-size:15px;color:var(--text);
+                  margin-bottom:6px;
+                ">Upload receipt photo</div>
+                <div style="
+                  font-size:13px;color:var(--text-muted);
+                ">tap to choose a file</div>
+              </div>
+              <div id="receipt-preview-container"
+                style="display:none;width:100%;">
+                <img id="receipt-preview-img"
+                  style="
+                    max-width:100%;max-height:200px;
+                    border-radius:10px;object-fit:contain;
+                  "
+                />
+              </div>
+            </div>
+
+            <input type="file"
+              id="receipt-file-input"
+              accept="image/*"
+              style="display:none"
+              onchange="handleReceiptFileSelect(this)"
+            />
+
+            <button
+              id="receipt-scan-btn"
+              onclick="submitReceiptScan()"
+              type="button"
+              disabled
+              style="
+                width:100%;padding:16px;
+                background:var(--accent);color:#080808;
+                border-radius:var(--radius-md);
+                font-size:15px;font-weight:500;
+                transition:filter 0.2s,opacity 0.2s;
+                opacity:0.4;cursor:not-allowed;
+              "
+            >Scan receipt →</button>
+          </div>
+
+          <div style="
+            flex:1;overflow-y:auto;
+          ">
+            <div id="receipt-default-state" style="
+              height:100%;display:flex;
+              flex-direction:column;
+              justify-content:center;align-items:center;
+              gap:12px;color:var(--text-muted);
+              text-align:center;
+            ">
+              <svg width="48" height="48" viewBox="0 0 24 24"
+                fill="none" stroke="rgba(255,255,255,0.15)"
+                stroke-width="1">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0
+                         0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <div style="font-size:14px;">
+                Extracted items will appear here
+              </div>
+            </div>
+
+            <div id="receipt-loading-state"
+              style="display:none;text-align:center;
+              padding:60px 0;">
+              <div style="
+                width:36px;height:36px;
+                border:2px solid rgba(255,255,255,0.1);
+                border-top-color:var(--accent);
+                border-radius:50%;
+                animation:spin 0.8s linear infinite;
+                margin:0 auto 16px;
+              "></div>
+              <div style="
+                font-size:14px;color:var(--text-muted);
+              ">Reading your receipt...</div>
+            </div>
+
+            <div id="receipt-results-state"
+              style="display:none;">
+              <div style="
+                display:flex;align-items:center;
+                justify-content:space-between;
+                margin-bottom:20px;
+              ">
+                <div style="
+                  font-family:'Playfair Display',serif;
+                  font-size:20px;color:var(--text);
+                ">Items found</div>
+                <div id="receipt-summary" style="
+                  font-size:13px;color:var(--accent);
+                "></div>
+              </div>
+              <div id="receipt-items-list" style="
+                display:flex;flex-direction:column;gap:8px;
+              "></div>
+              <button
+                onclick="confirmReceiptItems()"
+                id="receipt-confirm-btn"
+                type="button"
+                style="
+                  width:100%;margin-top:20px;
+                  padding:14px;background:var(--accent);
+                  color:#080808;border-radius:var(--radius-md);
+                  font-size:14px;font-weight:500;
+                  transition:filter 0.2s;
+                "
+                onmouseover="this.style.filter='brightness(0.92)'"
+                onmouseout="this.style.filter='brightness(1)'"
+              >Add all to kitchen →</button>
+            </div>
+
+            <div id="receipt-error-state"
+              style="display:none;padding:40px 0;
+              text-align:center;">
+              <div style="
+                font-size:14px;color:#f87171;
+                margin-bottom:16px;
+              " id="receipt-error-msg"></div>
+              <button
+                onclick="resetReceiptScreen()"
+                type="button"
+                style="
+                  padding:10px 20px;
+                  background:transparent;
+                  border:1px solid rgba(255,255,255,0.14);
+                  color:var(--text-muted);
+                  border-radius:8px;font-size:13px;
+                  cursor:pointer;
+                "
+              >Try again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="inventory-recipe-modal" style="
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      z-index:500;
+      display:none;
+      align-items:center;
+      justify-content:center;
+    ">
+      <div style="
+        background:#111111;
+        border:1px solid rgba(255,255,255,0.14);
+        border-radius:20px;
+        padding:32px;
+        width:480px;max-width:90vw;
+      ">
+        <div style="
+          font-family:'Playfair Display',serif;
+          font-size:24px;color:var(--text);
+          margin-bottom:8px;
+        ">Cook from my kitchen</div>
+        <div style="
+          font-size:13px;color:var(--text-muted);
+          margin-bottom:24px;
+        ">
+          What are you feeling? We'll build a recipe
+          from your existing inventory.
+        </div>
+
+        <textarea
+          id="inventory-recipe-prefs"
+          placeholder="e.g. something quick and light,
+high protein, comfort food..."
+          rows="3"
+          style="
+            width:100%;background:var(--surface);
+            border:1px solid rgba(255,255,255,0.14);
+            border-radius:12px;padding:14px 16px;
+            font-size:14px;font-family:'Geist',sans-serif;
+            color:var(--text);outline:none;
+            resize:none;margin-bottom:16px;
+            transition:border-color 0.2s;
+          "
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='rgba(255,255,255,0.14)'"
+        ></textarea>
+
+        <div style="
+          display:flex;flex-wrap:wrap;gap:6px;
+          margin-bottom:20px;
+        ">
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="something quick"
+            type="button"
+          >something quick</button>
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="high protein"
+            type="button"
+          >high protein</button>
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="comfort food"
+            type="button"
+          >comfort food</button>
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="light & fresh"
+            type="button"
+          >light & fresh</button>
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="use expiring items first"
+            type="button"
+          >use expiring items</button>
+          <button class="chip"
+            onclick="toggleInventoryChip(this)"
+            data-text="under 20 mins"
+            type="button"
+          >under 20 mins</button>
+        </div>
+
+        <div style="display:flex;gap:10px;">
+          <button
+            onclick="closeInventoryModal()"
+            type="button"
+            style="
+              flex:1;padding:13px;
+              background:transparent;
+              border:1px solid rgba(255,255,255,0.14);
+              color:var(--text-muted);
+              border-radius:10px;font-size:14px;
+              transition:all 0.15s;
+              font-family:'Geist',sans-serif;
+            "
+            onmouseover="this.style.color='var(--text)'"
+            onmouseout="this.style.color='var(--text-muted)'"
+          >Cancel</button>
+          <button
+            onclick="startInventoryStream()"
+            type="button"
+            style="
+              flex:2;padding:13px;
+              background:var(--accent);color:#080808;
+              border-radius:10px;font-size:14px;
+              font-weight:500;transition:filter 0.2s;
+              font-family:'Geist',sans-serif;
+              border:none;cursor:pointer;
+            "
+            onmouseover="this.style.filter='brightness(0.92)'"
+            onmouseout="this.style.filter='brightness(1)'"
+          >Generate recipe →</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
