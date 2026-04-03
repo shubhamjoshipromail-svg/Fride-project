@@ -3864,6 +3864,8 @@
                 continue;
               }
 
+              if (parsed.ping) continue;
+
               if (parsed.error) {
                 stopLoadingMessages();
                 loadingOverlay.classList.remove("is-visible");
@@ -4390,6 +4392,8 @@
               } catch {
                 continue;
               }
+
+              if (parsed.ping) continue;
 
               if (parsed.error) {
                 stopLoadingMessages();

@@ -234,7 +234,13 @@ async def stream_recipe(
 
             try:
                 while True:
-                    kind, payload = await queue.get()
+                    try:
+                        kind, payload = await asyncio.wait_for(
+                            queue.get(), timeout=15.0
+                        )
+                    except asyncio.TimeoutError:
+                        yield f"data: {json.dumps({'ping': True})}\n\n"
+                        continue
 
                     if kind == "chunk":
                         full_text += payload
@@ -770,7 +776,13 @@ async def stream_recipe_inventory(
 
         try:
             while True:
-                kind, payload = await queue.get()
+                try:
+                    kind, payload = await asyncio.wait_for(
+                        queue.get(), timeout=15.0
+                    )
+                except asyncio.TimeoutError:
+                    yield f"data: {json.dumps({'ping': True})}\n\n"
+                    continue
 
                 if kind == "chunk":
                     full_text += payload
