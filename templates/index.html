@@ -125,6 +125,10 @@
         pointer-events: none;
       }
 
+      #screen-0 {
+        padding-bottom: 0;
+      }
+
       #screen-4 {
         padding-bottom: 0;
       }
@@ -1649,18 +1653,19 @@
       <div style="
         width: 100%;
         height: 100%;
-        overflow-y: auto;
+        overflow: hidden;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
         gap: 0;
       ">
         <div style="
-          padding: 56px 48px 80px 64px;
+          padding: 72px 48px 80px 64px;
           display: flex;
           flex-direction: column;
           border-right: 1px solid var(--border);
           min-height: 100%;
+          overflow: hidden;
         ">
           <div style="margin-bottom: 64px;">
             <div class="wordmark" style="font-size: 20px; margin-bottom: 8px;">
@@ -1690,11 +1695,12 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             overflow: hidden;
+            min-height: 112px;
           ">
             <div style="
               flex: 1;
-              min-height: 92px;
-              padding: 18px 16px 16px;
+              min-height: 112px;
+              padding: 22px 16px 18px;
               text-align: center;
               display: flex;
               flex-direction: column;
@@ -1704,23 +1710,23 @@
             ">
               <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 28px;
+                font-size: 32px;
                 color: var(--accent);
-                line-height: 1.05;
-                margin-bottom: 6px;
+                line-height: 1.1;
+                margin-bottom: 8px;
               " id="stat-inventory">—</div>
               <div style="
-                font-size: 10px;
+                font-size: 11px;
                 color: var(--text-muted);
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
-                line-height: 1.3;
+                letter-spacing: 0.12em;
+                line-height: 1.35;
               ">in fridge</div>
             </div>
             <div style="
               flex: 1;
-              min-height: 92px;
-              padding: 18px 16px 16px;
+              min-height: 112px;
+              padding: 22px 16px 18px;
               text-align: center;
               display: flex;
               flex-direction: column;
@@ -1730,23 +1736,23 @@
             ">
               <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 28px;
+                font-size: 32px;
                 color: var(--text);
-                line-height: 1.05;
-                margin-bottom: 6px;
+                line-height: 1.1;
+                margin-bottom: 8px;
               " id="stat-scans">—</div>
               <div style="
-                font-size: 10px;
+                font-size: 11px;
                 color: var(--text-muted);
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
-                line-height: 1.3;
+                letter-spacing: 0.12em;
+                line-height: 1.35;
               ">scans</div>
             </div>
             <div style="
               flex: 1;
-              min-height: 92px;
-              padding: 18px 16px 16px;
+              min-height: 112px;
+              padding: 22px 16px 18px;
               text-align: center;
               display: flex;
               flex-direction: column;
@@ -1755,17 +1761,17 @@
             ">
               <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 28px;
+                font-size: 32px;
                 color: var(--text);
-                line-height: 1.05;
-                margin-bottom: 6px;
+                line-height: 1.1;
+                margin-bottom: 8px;
               " id="stat-recipes">—</div>
               <div style="
-                font-size: 10px;
+                font-size: 11px;
                 color: var(--text-muted);
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
-                line-height: 1.3;
+                letter-spacing: 0.12em;
+                line-height: 1.35;
               ">recipes</div>
             </div>
           </div>
@@ -1937,6 +1943,7 @@
           display: flex;
           flex-direction: column;
           overflow-y: auto;
+          min-height: 100%;
         ">
           <div style="
             display: flex;
