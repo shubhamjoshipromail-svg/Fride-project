@@ -3806,6 +3806,51 @@
         clearInterval(loadingInterval);
       }
 
+      function normalizeStreamRecipeText(raw) {
+        return (raw || '')
+          .replace(/```json/gi, '')
+          .replace(/```/g, '')
+          .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
+          .trim();
+      }
+
+      function renderRecipeStreamBlocks(raw, forceFinal = false) {
+        const cleanText = normalizeStreamRecipeText(raw);
+        const recipeOut = document.getElementById('recipe-output');
+        if (!recipeOut || !cleanText) return;
+
+        const blocks = cleanText
+          .split(/\n{2,}/)
+          .map(block => block.trim())
+          .filter(Boolean);
+
+        if (!blocks.length) return;
+
+        let renderBlocks = blocks;
+        if (!forceFinal && blocks.length > 1) {
+          const lastBlock = blocks[blocks.length - 1];
+          const looksComplete = (
+            /[.!?:]$/.test(lastBlock)
+            || lastBlock.startsWith('## ')
+            || /^\d+\.\s/.test(lastBlock)
+            || lastBlock.startsWith('- ')
+          );
+          if (!looksComplete) {
+            renderBlocks = blocks.slice(0, -1);
+          }
+        }
+
+        if (!renderBlocks.length && cleanText.length < 120) {
+          return;
+        }
+
+        const markdown = renderBlocks.length
+          ? renderBlocks.join('\n\n')
+          : cleanText;
+        recipeOut.innerHTML = marked.parse(markdown);
+        recipeOut.scrollTop = recipeOut.scrollHeight;
+      }
+
       async function startGeneration() {
         const imageInput = document.querySelector('input[type="file"]');
         const prefsScreen2 = document.getElementById('prefs-screen-2');
@@ -3830,21 +3875,12 @@
         });
         stepTimers.clear();
 
-        showScreen('screen-4');
-        showLoadingOverlay();
-        startLoadingMessages();
-        fetch('/home-data')
-          .then(r => r.json())
-          .then(data => {
-            const note = document.getElementById(
-              'loading-inventory-note'
-            );
-            if (note && data.total_inventory > 0) {
-              note.textContent =
-                `using ${data.total_inventory} known ingredients`;
-            }
-          })
-          .catch(() => {});
+        stopLoadingMessages();
+        loadingOverlay.classList.remove('is-visible');
+        showScreen('screen-5');
+        document.getElementById('recipe-title-display').textContent = 'Building your recipe';
+        document.getElementById('hero-image-container').innerHTML = '';
+        document.getElementById('recipe-output').innerHTML = '';
 
         const formData = new FormData();
         formData.append('image', imageInput.files[0]);
@@ -3869,7 +3905,7 @@
           const decoder = new TextDecoder();
           let buffer = '';
           let fullText = '';
-          let screenShown = false;
+          let screenShown = true;
 
           while (true) {
             const { done, value } = await reader.read();
@@ -3908,47 +3944,21 @@
 
               if (parsed.chunk) {
                 fullText += parsed.chunk;
-              
                 if (!screenShown) {
-                  stopLoadingMessages();
-                  loadingOverlay.classList.remove('is-visible');
                   showScreen('screen-5');
                   screenShown = true;
                 }
-
-                if (
-                  fullText.length % 200 < parsed.chunk.length
-                  || fullText.length < 400
-                ) {
-                  const displayText = fullText
-                    .replace(/```json/gi, '')
-                    .replace(/```/g, '')
-                    .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
-                    .trim();
-
-                  const recipeOut = document.getElementById(
-                    'recipe-output'
-                  );
-
-                  if (displayText.length > 20) {
-                    recipeOut.innerHTML = marked.parse(displayText);
-                    recipeOut.scrollTop = recipeOut.scrollHeight;
-                  }
-                }
+                renderRecipeStreamBlocks(fullText, false);
               }
 
               if (parsed.done) {
                 const indicator = document.getElementById('stream-indicator');
                 if (indicator) indicator.remove();
 
-                const cleanText = fullText
-                  .replace(/```json/gi, '')
-                  .replace(/```/g, '')
-                  .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
-                  .trim();
+                const cleanText = normalizeStreamRecipeText(fullText);
 
                 const recipeOut = document.getElementById('recipe-output');
-                recipeOut.innerHTML = marked.parse(cleanText);
+                renderRecipeStreamBlocks(fullText, true);
                 recipeOut.classList.add('recipe-output--complete');
                 currentRecipeData.markdown = recipeOut.innerHTML;
 
@@ -4373,17 +4383,12 @@
         });
         stepTimers.clear();
 
-        showScreen('screen-4');
-        showLoadingOverlay();
-        startLoadingMessages();
-
-        const note = document.getElementById(
-          'loading-inventory-note'
-        );
-        if (note) {
-          note.textContent =
-            'cooking from your saved inventory...';
-        }
+        stopLoadingMessages();
+        loadingOverlay.classList.remove('is-visible');
+        showScreen('screen-5');
+        document.getElementById('recipe-title-display').textContent = 'Building from your kitchen';
+        document.getElementById('hero-image-container').innerHTML = '';
+        document.getElementById('recipe-output').innerHTML = '';
 
         const formData = new FormData();
         formData.append('preferences', prefs);
@@ -4399,7 +4404,7 @@
           const decoder = new TextDecoder();
           let buffer = '';
           let fullText = '';
-          let screenShown = false;
+          let screenShown = true;
 
           while (true) {
             const { done, value } = await reader.read();
@@ -4442,30 +4447,10 @@
               if (parsed.chunk) {
                 fullText += parsed.chunk;
                 if (!screenShown) {
-                  stopLoadingMessages();
-                  loadingOverlay.classList.remove('is-visible');
                   showScreen('screen-5');
                   screenShown = true;
                 }
-                if (
-                  fullText.length % 200 < parsed.chunk.length
-                  || fullText.length < 400
-                ) {
-                  const displayText = fullText
-                    .replace(/```json/gi, '')
-                    .replace(/```/g, '')
-                    .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
-                    .trim();
-                  if (displayText.length > 20) {
-                    const recipeOut = document.getElementById(
-                      'recipe-output'
-                    );
-                    recipeOut.innerHTML =
-                      marked.parse(displayText);
-                    recipeOut.scrollTop =
-                      recipeOut.scrollHeight;
-                  }
-                }
+                renderRecipeStreamBlocks(fullText, false);
               }
 
               if (parsed.done) {
@@ -4474,15 +4459,11 @@
                 );
                 if (indicator) indicator.remove();
 
-                const cleanText = fullText
-                  .replace(/```json/gi, '')
-                  .replace(/```/g, '')
-                  .replace(/^\s*#*\s*TITLE:.*\n?/im, '')
-                  .trim();
+                const cleanText = normalizeStreamRecipeText(fullText);
                 const recipeOut = document.getElementById(
                   'recipe-output'
                 );
-                recipeOut.innerHTML = marked.parse(cleanText);
+                renderRecipeStreamBlocks(fullText, true);
                 recipeOut.classList.add(
                   'recipe-output--complete'
                 );
